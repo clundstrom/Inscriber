@@ -1,9 +1,11 @@
 package se.umu.chlu0125.inscriber.controllers;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.google.android.gms.maps.SupportMapFragment;
 
 import se.umu.chlu0125.inscriber.R;
 

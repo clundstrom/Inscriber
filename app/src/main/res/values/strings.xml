@@ -15,8 +15,9 @@
     <string name="guide_modal_button">SHOW ME</string>
     <string name="guide_modal_hide">HIDE</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="map_activity_title">First</string>
-    <string name="second_tab_title">Second</string>
-
+    <string name="map_activity_title">Map</string>
+    <string name="second_tab_title">Your inscriptions</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBLpXm21Ntbm3z-0JC1-kFiao67ySi4jZo</string>
 
 </resources>

@@ -1,21 +1,15 @@
 package se.umu.chlu0125.inscriber.controllers;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import se.umu.chlu0125.inscriber.R;
-/**
- * @author: Christoffer Lundstrom
- * @date: 22/07/2019
- * <p>
- * Description:
- */
-public abstract class SingleFragmentActivity extends AppCompatActivity {
 
-    protected abstract Fragment createFragment();
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +20,14 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
-        // create first fragment
+        // Create fragments
         if (fragment == null) {
-            fragment = new TabManagerFragment();
+            fragment = TabManagerFragment.newInstance();
             fm.beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
     }
+
+
 }

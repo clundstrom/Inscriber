@@ -14,6 +14,9 @@
     <string name="guide_modal">Let\'s make your first Inscription!</string>
     <string name="guide_modal_button">SHOW ME</string>
     <string name="guide_modal_hide">HIDE</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="map_activity_title">First</string>
+    <string name="second_tab_title">Second</string>
 
 
 </resources>

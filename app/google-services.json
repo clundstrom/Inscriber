@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1047289248762",
+    "firebase_url": "https://inscriberapp.firebaseio.com",
+    "project_id": "inscriberapp",
+    "storage_bucket": "inscriberapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047289248762:android:15990fe0d2b74e12",
+        "android_client_info": {
+          "package_name": "se.umu.chlu0125.inscriber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047289248762-ibhlhu2ao7cdas39vvga3og4irp5nmqe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "se.umu.chlu0125.inscriber",
+            "certificate_hash": "77eca6db55c484d3e83c5a52f31e294ab2622131"
+          }
+        },
+        {
+          "client_id": "1047289248762-7rcakq2g4aijhhr7jed6s8o8nv10j61s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPDL62sRQ0Kine2uD9M-MVhQuIX8R1wZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047289248762-7rcakq2g4aijhhr7jed6s8o8nv10j61s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

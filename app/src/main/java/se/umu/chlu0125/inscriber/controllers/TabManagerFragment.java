@@ -17,8 +17,6 @@ public class TabManagerFragment extends Fragment {
 
 
     public static TabManagerFragment newInstance(){
-        // bundles and args here..
-
         return new TabManagerFragment();
     }
 

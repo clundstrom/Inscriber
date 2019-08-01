@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.google.android.gms.maps.SupportMapFragment;
-
 import se.umu.chlu0125.inscriber.R;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {

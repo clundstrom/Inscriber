@@ -2,6 +2,7 @@ package se.umu.chlu0125.inscriber.controllers;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
@@ -24,6 +25,7 @@ public class GuideDialogFragment extends DialogFragment {
     private static final String TAG = "GuideDialogFragment";
     private Button mHideButton;
     private Button mShowButton;
+    private boolean mHidden;
 
 
     public static GuideDialogFragment newInstance(){
@@ -43,12 +45,14 @@ public class GuideDialogFragment extends DialogFragment {
 
     private void attachListeners() {
         mHideButton.setOnClickListener( (x) -> {
-            Log.d("Inscriber", "Hide fragment.");
+            Log.d("Inscriber", "Hidden: true");
+            mHidden = true;
             closeFragment();
         });
 
         mShowButton.setOnClickListener( (x) -> {
             Log.d("Inscriber", "Show guide.");
+            startActivity(new Intent(getActivity(), GuideActivity.class));
         });
 
     }

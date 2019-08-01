@@ -5,61 +5,60 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="697dp"
-        android:layout_height="939dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.283"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_clouds" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/guide_greet"
-        android:layout_width="191dp"
-        android:layout_height="98dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="184dp"
-        android:layout_marginEnd="8dp"
-        android:alpha="87"
-        android:fontFamily="@font/roboto"
-        android:text="@string/guide_slide1_step1"
-        android:textColor="@android:color/primary_text_light"
-        android:textSize="60sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="297dp"
-        android:layout_height="275dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:alpha="87"
-        android:fontFamily="@font/roboto"
-        android:text="@string/guide_slide1_phone"
-        android:textColor="@android:color/primary_text_light"
-        android:textSize="48sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="343dp" />
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="524dp"
+        android:layout_marginTop="608dp"
         android:layout_marginEnd="8dp"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/guide_greet"
+        android:layout_width="322dp"
+        android:layout_height="130dp"
+        android:alpha="87"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="@string/guide_slide1_step1"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="48sp"
+        tools:layout_editor_absoluteY="601dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="413dp"
+        android:layout_height="565dp"
+        app:srcCompat="@drawable/ic_car1" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="310dp"
+        android:layout_height="116dp"
+        android:alpha="87"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="@string/guide_slide1_phone"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="48sp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="731dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

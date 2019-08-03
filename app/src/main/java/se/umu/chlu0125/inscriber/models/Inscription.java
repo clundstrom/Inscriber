@@ -3,22 +3,43 @@ package se.umu.chlu0125.inscriber.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.sql.Date;
+import com.google.firebase.Timestamp;
+
 /**
  * @author: Christoffer Lundstrom
  * @date: 22/07/2019
  * <p>
- * Description:
+ * Description: Model for a inscription.
  */
 public class Inscription implements Parcelable {
 
-
-    private Date mDate;
+    private Timestamp mDate;
     private String mMessage;
 
+    public Timestamp getDate() {
+        return mDate;
+    }
+
+    public void setDate(Timestamp date) {
+        mDate = date;
+    }
+
+    public String getMessage() {
+        return mMessage;
+    }
+
+    public void setMessage(String message) {
+        mMessage = message;
+    }
+
     protected Inscription(Parcel in) {
-        mDate = (Date)in.readSerializable();
+        mDate = (Timestamp)in.readParcelable(getClass().getClassLoader());
         mMessage = in.readString();
+    }
+
+    public Inscription(){
+        mDate = Timestamp.now();
+        mMessage = "Test";
     }
 
     public static final Creator<Inscription> CREATOR = new Creator<Inscription>() {
@@ -41,7 +62,7 @@ public class Inscription implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeSerializable(mDate);
+        dest.writeParcelable(mDate, 0);
         dest.writeString(mMessage);
     }
 

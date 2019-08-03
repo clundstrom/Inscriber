@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import se.umu.chlu0125.inscriber.R;
+import se.umu.chlu0125.inscriber.models.Inscription;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +25,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getInstanceId();
+        InscriptionService service = new InscriptionService();
+
+        Inscription s = new Inscription();
+        service.setUserData(s);
+
         FragmentManager fm = getSupportFragmentManager();
 
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
@@ -38,18 +44,5 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-    }
-
-    /**
-     *  Firebase Instance ID provides a unique identifier for each app instance and a mechanism to authenticate and authorize actions.
-     *  Resets with app reinstalls, clearing of app-data, restores etc. More info @ firebase api.
-     *  Used as unique id of user db-entry.
-     */
-    private void getInstanceId(){
-        if (mInstanceId == null){
-            Log.d(TAG, "getInstanceId: Local instanceID null.");
-            mInstanceId = FirebaseInstanceId.getInstance();
-            mIdToken = mInstanceId.getId();
-        }
     }
 }

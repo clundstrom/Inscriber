@@ -30,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mService = new InscriptionService();
-
-        // Async scope
-        mService.getUserDataTask().addOnSuccessListener((snapshot) -> {
-            Inscription ins = snapshot.toObject(Inscription.class);
-            Log.d(TAG, "onCreate: "+ ins.getMessage());
-        });
+//        mService = new InscriptionService();
+//
+//        // Async scope
+//        mService.getUserDataTask().addOnSuccessListener((snapshot) -> {
+//            Inscription ins = snapshot.toObject(Inscription.class);
+//            Log.d(TAG, "onCreate: "+ ins.getMessage());
+//        });
 
 
         FragmentManager fm = getSupportFragmentManager();

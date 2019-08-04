@@ -44,16 +44,10 @@ public class InscriptionService {
                 });
     }
 
-
-
     private String getIdToken(){
         if(mIdToken.isEmpty()){
-
-
-
-
+            getInstanceId();
         }
-
         return mIdToken;
     }
 

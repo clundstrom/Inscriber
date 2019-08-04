@@ -45,6 +45,18 @@ public class InscriptionService {
     }
 
 
+
+    private String getIdToken(){
+        if(mIdToken.isEmpty()){
+
+
+
+
+        }
+
+        return mIdToken;
+    }
+
     /**
      *  Firebase Instance ID provides a unique identifier for each app instance and a mechanism to authenticate and authorize actions.
      *  Resets with app reinstalls, clearing of app-data, restores etc. More info @ firebase api.

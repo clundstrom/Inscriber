@@ -7,9 +7,16 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import se.umu.chlu0125.inscriber.R;
 
+/**
+ * @author: Christoffer Lundstrom
+ * @date: 22/07/2019
+ * <p>
+ * Description: Pages between Fragments.
+ */
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
     Context mContext;
+    private static final String TAG = "TabPagerAdapter";
 
 
     public TabPagerAdapter(FragmentManager fm, Context context) {

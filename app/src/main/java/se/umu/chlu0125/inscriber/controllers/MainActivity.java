@@ -12,25 +12,28 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
 
+
+/**
+ * @author: Christoffer Lundstrom
+ * @date: 22/07/2019
+ * <p>
+ * Description: Main entry of application.
+ * Initializes backend-related queries and sets up connection to db.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    private static InscriptionService mService;
     private static final String TAG = "MainActivity";
-    private static FirebaseInstanceId mInstanceId;
-    private String mIdToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        InscriptionService service = new InscriptionService();
-
-        //Inscription s = new Inscription();
-        //service.setUserData(s);
-
+        mService = new InscriptionService();
 
         // Async scope
-        service.getUserDataTask().addOnSuccessListener((snapshot) -> {
+        mService.getUserDataTask().addOnSuccessListener((snapshot) -> {
             Inscription ins = snapshot.toObject(Inscription.class);
             Log.d(TAG, "onCreate: "+ ins.getMessage());
         });

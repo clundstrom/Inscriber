@@ -5,16 +5,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import se.umu.chlu0125.inscriber.R;
-
+/**
+ * @author: Christoffer Lundstrom
+ * @date: 22/07/2019
+ * <p>
+ * Description: Responsible for the TabPaging between Map and YourInscriptions.
+ */
 public class TabManagerFragment extends Fragment {
-    TabPagerAdapter pagerAdapter;
-    ViewPager viewPager;
-
+    private TabPagerAdapter pagerAdapter;
+    private ViewPager viewPager;
+    private static final String TAG = "TabManagerFragment";
 
     public static TabManagerFragment newInstance(){
         return new TabManagerFragment();
@@ -33,5 +40,6 @@ public class TabManagerFragment extends Fragment {
         pagerAdapter = new TabPagerAdapter(getChildFragmentManager(), getContext());
         viewPager = view.findViewById(R.id.toolbar_viewpager);
         viewPager.setAdapter(pagerAdapter);
+        Log.d(TAG, "onViewCreated: TabManager initialized.");
     }
 }

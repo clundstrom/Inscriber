@@ -22,6 +22,13 @@ import java.util.List;
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
 
+
+/**
+ * @author: Christoffer Lundstrom
+ * @date: 22/07/2019
+ * <p>
+ * Description: Handles RecyclerView of Users Inscriptions.
+ */
 public class InscriptionListFragment extends Fragment {
 
     private static final String TAG = "InscriptionListFragment";

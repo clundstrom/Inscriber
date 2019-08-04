@@ -1,5 +1,6 @@
 package se.umu.chlu0125.inscriber.models;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -15,8 +16,7 @@ public class Inscription implements Parcelable {
 
     private Timestamp mDate;
     private String mMessage;
-    // coordinate
-    // imageUrl
+    private Location mLocation;
 
     public Timestamp getDate() {
         return mDate;
@@ -39,6 +39,10 @@ public class Inscription implements Parcelable {
         mMessage = in.readString();
     }
 
+    public Inscription(Location location){
+        mDate = Timestamp.now();
+        mLocation = location;
+    }
     public Inscription(){
         mDate = Timestamp.now();
         mMessage = "Test";
@@ -68,4 +72,11 @@ public class Inscription implements Parcelable {
         dest.writeString(mMessage);
     }
 
+    public Location getLocation() {
+        return mLocation;
+    }
+
+    public void setLocation(Location location) {
+        mLocation = location;
+    }
 }

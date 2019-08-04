@@ -1,7 +1,10 @@
 package se.umu.chlu0125.inscriber.controllers;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,15 +36,19 @@ public class AddDialogFragment extends DialogFragment {
     private static final String TAG = "AddDialogFragment";
     private static final int MIN_MSG_LENGTH = 5;
     private static final int MAX_MSG_LENGTH = 140;
+    private static final String CONFIRM_ADD_MARKER = "CONFIRM_ADD_MARKER";
+    private static Inscription mInscription;
     private TextView mMaxChars;
+    private TextView mLocation;
     private EditText mMessage;
     private Button mCancel;
     private Button mAdd;
+    private boolean mAddMarker;
 
 
-    public static AddDialogFragment newInstance(){
+    public static AddDialogFragment newInstance(@Nullable Location location){
         AddDialogFragment fragment = new AddDialogFragment();
-
+        mInscription = new Inscription(location);
         Bundle args = new Bundle();
         //args.putInt("someInt", someInt);
         fragment.setArguments(args);
@@ -61,6 +68,12 @@ public class AddDialogFragment extends DialogFragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mLocation.setText("Lat: " + mInscription.getLocation().getLatitude()  + "\nLong: " + mInscription.getLocation().getLongitude());
+    }
 
     /**
      * Creates the Add Inscription Dialog in which the User adds a message to the current location.
@@ -71,20 +84,30 @@ public class AddDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.add_ins_dialog, null);
-        Log.d(TAG, "onCreateDialog: Createing dialog.");
+        Log.d(TAG, "onCreateDialog: Creating dialog.");
 
         // Finding Views.
         mCancel = v.findViewById(R.id.add_ins_cancel);
         mAdd = v.findViewById(R.id.add_ins_add);
         mMaxChars = (TextView)v.findViewById(R.id.add_ins_max_char);
         mMessage = (EditText)v.findViewById(R.id.add_ins_msg);
+        mLocation = v.findViewById(R.id.add_ins_location);
 
         attachListeners();
         return new AlertDialog.Builder(getActivity()).setView(v).create();
     }
 
-    private void attachListeners() {
+    private void sendResult(int resultCode, boolean confirm){
+        if (getTargetFragment() == null) return;
 
+        Intent intent = new Intent();
+        intent.putExtra(CONFIRM_ADD_MARKER, confirm);
+
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
+
+    }
+
+    private void attachListeners() {
         mMessage.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,18 +134,15 @@ public class AddDialogFragment extends DialogFragment {
                 Log.e(TAG, "attachListeners: Message empty.");
             }
             else {
-                Inscription ins = new Inscription();
-                ins.setMessage(mMessage.getText().toString());
+                mInscription.setMessage(mMessage.getText().toString());
                 Toast successToast = Toast.makeText(getContext(), R.string.add_ins_success, Toast.LENGTH_SHORT);
                 successToast.setGravity(Gravity.TOP, 0, 50);
                 successToast.show();
                 Log.d(TAG, "attachListeners: New Inscription created.");
+                sendResult(Activity.RESULT_OK, true);
                 dismiss();
             }
         });
-
-
-
     }
 
 }

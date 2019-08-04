@@ -45,13 +45,13 @@ public class GuideDialogFragment extends DialogFragment {
 
     private void attachListeners() {
         mHideButton.setOnClickListener( (x) -> {
-            Log.d("Inscriber", "Hidden: true");
+            Log.d(TAG, "attachListeners: Fragment hidden.");
             mHidden = true;
             closeFragment();
         });
 
         mShowButton.setOnClickListener( (x) -> {
-            Log.d("Inscriber", "Show guide.");
+            Log.d(TAG, "attachListeners: Start guide activity.");
             startActivity(new Intent(getActivity(), GuideActivity.class));
         });
 

@@ -29,6 +29,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="80dp"
         android:text="@string/guide_modal_button"
+        android:textColor="@color/buttonText"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -39,6 +40,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="28dp"
         android:text="@string/guide_modal_hide"
+        android:textColor="@color/buttonText"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 

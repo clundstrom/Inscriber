@@ -1,17 +1,20 @@
 package se.umu.chlu0125.inscriber.controllers;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -35,6 +38,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private GoogleMap mMap;
     private boolean mLocationPermissionGranted;
+    private Button mInscribe;
 
 
     @Override
@@ -50,6 +54,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
+        mInscribe = getActivity().findViewById(R.id.map_inscribe);
+
+        mInscribe.setOnClickListener( (click) -> {
+
+            DialogFragment dialog = AddDialogFragment.newInstance();
+            dialog.show(getFragmentManager(), null);
+        });
+
     }
 
     @Override

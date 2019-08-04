@@ -15,6 +15,8 @@ public class Inscription implements Parcelable {
 
     private Timestamp mDate;
     private String mMessage;
+    // coordinate
+    // imageUrl
 
     public Timestamp getDate() {
         return mDate;

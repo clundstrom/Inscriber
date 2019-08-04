@@ -2,14 +2,11 @@ package se.umu.chlu0125.inscriber.controllers;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,14 +14,19 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 import se.umu.chlu0125.inscriber.R;
 
+/**
+ * @author: Christoffer Lundstrom
+ * @date: 28/07/2019
+ * <p>
+ * Description: Represents the map view of the application. Requests permission to use location and
+ * controls markers and camera changes of the map.
+ */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final String TAG = "MapFragment";
@@ -55,11 +57,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION };
 
-        Log.d(TAG, "onMapReady: Ready to be used.");
-
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
+            Log.d(TAG, "onMapReady: Permission granted.");
         } else {
             Log.d(TAG, "onMapReady: Location permission denied. Requesting..");
             ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_CODE);

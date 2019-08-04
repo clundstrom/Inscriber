@@ -23,7 +23,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new MapFragment();
             case 1:
-                return new GuideDialogFragment();
+                return new InscriptionListFragment();
             default:
                 return null;
         }

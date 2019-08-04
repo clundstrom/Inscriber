@@ -2,7 +2,9 @@ package se.umu.chlu0125.inscriber.controllers;
 
 import android.util.Log;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -26,10 +28,10 @@ public class InscriptionService {
     }
 
 
-    public DocumentReference getUserData(){
+    public Task<DocumentSnapshot> getUserDataTask(){
         DocumentReference userDoc = mFirebaseDbInstance.collection("users").document(mIdToken);
-        if(userDoc == null) Log.e(TAG, "getUserData: Error fetching Inscriptions. User does not exist.");
-        return userDoc;
+        if(userDoc == null) Log.e(TAG, "getUserDataTask: Error fetching Inscriptions. User does not exist.");
+        return userDoc.get();
     }
 
     public void setUserData(Object object){

@@ -14,6 +14,9 @@
     <string name="guide_modal">Let\'s make your first Inscription!</string>
     <string name="guide_modal_button">SHOW ME</string>
     <string name="guide_modal_hide">HIDE</string>
+
+
+
     <string name="title_activity_main">MainActivity</string>
     <string name="map_activity_title">Map</string>
     <string name="second_tab_title">Your inscriptions</string>
@@ -26,4 +29,6 @@
     <string name="add_ins_success">Message successfully added.</string>
     <string name="add_ins_err_message_empty">You can\'t save empty messages.</string>
 
+    <!-- PERMISSIONS -->
+    <string name="location_perm_denied">Location permission is required to Inscribe.</string>
 </resources>

@@ -3,12 +3,10 @@ package se.umu.chlu0125.inscriber.controllers;
 import android.os.Bundle;
 import android.util.Log;
 
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import se.umu.chlu0125.inscriber.R;
@@ -27,8 +25,16 @@ public class MainActivity extends AppCompatActivity {
 
         InscriptionService service = new InscriptionService();
 
-        Inscription s = new Inscription();
-        service.setUserData(s);
+        //Inscription s = new Inscription();
+        //service.setUserData(s);
+
+
+        // Async scope
+        service.getUserDataTask().addOnSuccessListener((snapshot) -> {
+            Inscription ins = snapshot.toObject(Inscription.class);
+            Log.d(TAG, "onCreate: "+ ins.getMessage());
+        });
+
 
         FragmentManager fm = getSupportFragmentManager();
 

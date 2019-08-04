@@ -21,4 +21,7 @@
     <string name="inscribe">Inscribe</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBPDL62sRQ0Kine2uD9M-MVhQuIX8R1wZY</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

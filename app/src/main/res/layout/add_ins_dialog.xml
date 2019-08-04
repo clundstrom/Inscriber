@@ -5,11 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="376dp"
+        android:layout_height="232dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/sign1" />
+
     <TextView
         android:id="@+id/add_ins_title"
         android:layout_width="74dp"
         android:layout_height="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:text="Inscribe"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -19,22 +33,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/add_ins_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="104dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="88dp"
         android:text="Add"
         android:textColor="@color/buttonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_ins_msg" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/add_ins_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="36dp"
         android:text="Cancel"
         android:textColor="@color/buttonText"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,17 +56,17 @@
 
     <EditText
         android:id="@+id/add_ins_msg"
-        android:layout_width="330dp"
-        android:layout_height="153dp"
+        android:layout_width="339dp"
+        android:layout_height="139dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:maxLength="140"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,10 +75,12 @@
         android:layout_width="151dp"
         android:layout_height="19dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="Max characters: 140"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.864"
+        app:layout_constraintHorizontal_bias="0.885"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_ins_msg" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,6 +47,12 @@ public class InscriptionListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateList();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,18 +62,25 @@ public class InscriptionListFragment extends Fragment {
         mInscriptionRecyclerView = (RecyclerView) view.findViewById(R.id.inscription_recycler);
         mInscriptionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // Async
-        InscriptionService.getInstance().getUserDataTask().addOnSuccessListener((snapshot) -> {
-            mDisplayCollection = snapshot.toObject(User.class).getCollection();
-
-            mAdapter = new InscriptionAdapter(mDisplayCollection); // insert list
-            mInscriptionRecyclerView.setAdapter(mAdapter);
-            Log.d(TAG, "onCreateView: Fetched InsCollection.");
-        });
-
+        updateList();
         return view;
     }
 
+    public void updateList() {
+        InscriptionService mService = InscriptionService.getInstance();
+        mService.getUserDataTask().addOnSuccessListener(snapshot -> {
+
+            mDisplayCollection = snapshot.toObject(User.class).getCollection();
+            Log.d(TAG, "onCreateView: Fetched InsCollection.");
+            if (mAdapter == null) {
+                mAdapter = new InscriptionAdapter(mDisplayCollection);
+                mInscriptionRecyclerView.setAdapter(mAdapter);
+            } else {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
 
     /**
      * Internal class responsible for handling clicks and inflation of each Inscription in the RecyclerView.
@@ -75,8 +89,6 @@ public class InscriptionListFragment extends Fragment {
 
         private final ImageView mImage;
         private Inscription mInscription;
-
-        //views
 
         private TextView mDate;
         private TextView mMessage;
@@ -98,10 +110,7 @@ public class InscriptionListFragment extends Fragment {
             mImage.setImageResource(R.drawable.common_google_signin_btn_icon_dark);
             Date date = inscription.getDate().toDate();
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-
-
             mDate.setText(formatter.format(date));
-
         }
 
         @Override

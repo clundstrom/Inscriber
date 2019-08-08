@@ -13,9 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,13 +33,28 @@ import se.umu.chlu0125.inscriber.models.User;
 public class InscriptionListFragment extends Fragment {
 
     private static final String TAG = "InscriptionListFragment";
+    private static InscriptionListFragment mFragment;
     private RecyclerView mInscriptionRecyclerView;
     private InscriptionAdapter mAdapter;
     private List<Inscription> mDisplayCollection;
 
+    public static InscriptionListFragment getInstance() {
+        if (mFragment == null) {
+            return new InscriptionListFragment();
+        } else {
+            return mFragment;
+        }
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        InscriptionService.getInstance().getUserDataTask().addOnSuccessListener(snapshot -> {
+            mDisplayCollection = snapshot.toObject(User.class).getCollection();
+            Log.d(TAG, "onCreateView: Fetched InsCollection.");
+        });
+
     }
 
     @Override
@@ -50,7 +65,6 @@ public class InscriptionListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateList();
     }
 
     @Nullable
@@ -62,24 +76,24 @@ public class InscriptionListFragment extends Fragment {
         mInscriptionRecyclerView = (RecyclerView) view.findViewById(R.id.inscription_recycler);
         mInscriptionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        updateList();
+        InscriptionService.getInstance().getUserDataTask().addOnSuccessListener((snapshot -> {
+            User user = snapshot.toObject(User.class);
+
+            if (user == null) {
+                user = new User();
+                mDisplayCollection = new ArrayList<Inscription>();
+            }
+
+            mAdapter = new InscriptionAdapter(mDisplayCollection);
+            mInscriptionRecyclerView.setAdapter(mAdapter);
+        }));
+
         return view;
     }
 
-    public void updateList() {
-        InscriptionService mService = InscriptionService.getInstance();
-        mService.getUserDataTask().addOnSuccessListener(snapshot -> {
-
-            mDisplayCollection = snapshot.toObject(User.class).getCollection();
-            Log.d(TAG, "onCreateView: Fetched InsCollection.");
-            if (mAdapter == null) {
-                mAdapter = new InscriptionAdapter(mDisplayCollection);
-                mInscriptionRecyclerView.setAdapter(mAdapter);
-            } else {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
+    public void updateList(Inscription ins) {
+        mDisplayCollection.add(ins);
+        mAdapter.notifyDataSetChanged();
     }
 
     /**

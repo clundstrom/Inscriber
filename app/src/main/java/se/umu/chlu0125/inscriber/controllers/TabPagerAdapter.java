@@ -28,9 +28,9 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new MapFragment();
+                return MapFragment.getInstance();
             case 1:
-                return new InscriptionListFragment();
+                return InscriptionListFragment.getInstance();
             default:
                 return null;
         }

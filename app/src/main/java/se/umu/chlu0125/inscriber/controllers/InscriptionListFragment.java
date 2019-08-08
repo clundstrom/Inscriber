@@ -1,6 +1,7 @@
 package se.umu.chlu0125.inscriber.controllers;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.Timestamp;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
+import se.umu.chlu0125.inscriber.models.User;
 
 
 /**
@@ -36,6 +34,7 @@ public class InscriptionListFragment extends Fragment {
     private static final String TAG = "InscriptionListFragment";
     private RecyclerView mInscriptionRecyclerView;
     private InscriptionAdapter mAdapter;
+    private List<Inscription> mDisplayCollection;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,26 +55,15 @@ public class InscriptionListFragment extends Fragment {
         mInscriptionRecyclerView = (RecyclerView) view.findViewById(R.id.inscription_recycler);
         mInscriptionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Inscription ins = new Inscription();
-        ins.setMessage("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-        ins.setDate(new Timestamp(new Date()));
+        // Async
+        InscriptionService.getInstance().getUserDataTask().addOnSuccessListener((snapshot) -> {
+            mDisplayCollection = snapshot.toObject(User.class).getCollection();
 
-        Inscription ind = new Inscription();
-        ind.setMessage("Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.\n" +
-                "\n" +
-                "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.");
-        ind.setDate(new Timestamp(new Date()));
+            mAdapter = new InscriptionAdapter(mDisplayCollection); // insert list
+            mInscriptionRecyclerView.setAdapter(mAdapter);
+            Log.d(TAG, "onCreateView: Fetched InsCollection.");
+        });
 
-        List<Inscription> list = new ArrayList<>();
-
-        list.add(ins);
-        list.add(ins);
-        list.add(ind);
-        list.add(ind);
-
-
-        mAdapter = new InscriptionAdapter(list); // insert list
-        mInscriptionRecyclerView.setAdapter(mAdapter);
         return view;
     }
 
@@ -88,7 +76,7 @@ public class InscriptionListFragment extends Fragment {
         private final ImageView mImage;
         private Inscription mInscription;
 
-       //views
+        //views
 
         private TextView mDate;
         private TextView mMessage;
@@ -123,13 +111,12 @@ public class InscriptionListFragment extends Fragment {
     }
 
 
-
-    private class InscriptionAdapter extends RecyclerView.Adapter<InscriptionItem>{
+    private class InscriptionAdapter extends RecyclerView.Adapter<InscriptionItem> {
 
         private List<Inscription> mInscriptions;
 
 
-        public InscriptionAdapter(List<Inscription> list){
+        public InscriptionAdapter(List<Inscription> list) {
             mInscriptions = list;
         }
 

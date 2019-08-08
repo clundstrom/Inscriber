@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +23,7 @@ import androidx.fragment.app.DialogFragment;
 
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
+import se.umu.chlu0125.inscriber.models.Location;
 
 /**
  * @author: Christoffer Lundstrom
@@ -36,7 +36,7 @@ public class AddDialogFragment extends DialogFragment {
     private static final String TAG = "AddDialogFragment";
     private static final int MIN_MSG_LENGTH = 5;
     private static final int MAX_MSG_LENGTH = 140;
-    private static final String CONFIRM_ADD_MARKER = "CONFIRM_ADD_MARKER";
+    public static final String EXTRA_MARKER = "se.umu.chlu0125.inscriber.models.Inscription";
     private static Inscription mInscription;
     private TextView mMaxChars;
     private TextView mLocation;
@@ -97,11 +97,11 @@ public class AddDialogFragment extends DialogFragment {
         return new AlertDialog.Builder(getActivity()).setView(v).create();
     }
 
-    private void sendResult(int resultCode, boolean confirm){
+    private void sendResult(int resultCode, Inscription mInscription){
         if (getTargetFragment() == null) return;
 
         Intent intent = new Intent();
-        intent.putExtra(CONFIRM_ADD_MARKER, confirm);
+        intent.putExtra(EXTRA_MARKER, mInscription);
 
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
 
@@ -139,7 +139,7 @@ public class AddDialogFragment extends DialogFragment {
                 successToast.setGravity(Gravity.TOP, 0, 50);
                 successToast.show();
                 Log.d(TAG, "attachListeners: New Inscription created.");
-                sendResult(Activity.RESULT_OK, true);
+                sendResult(Activity.RESULT_OK, mInscription);
                 dismiss();
             }
         });

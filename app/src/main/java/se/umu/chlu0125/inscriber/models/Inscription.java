@@ -1,6 +1,5 @@
 package se.umu.chlu0125.inscriber.models;
 
-import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,7 +9,7 @@ import com.google.firebase.Timestamp;
  * @author: Christoffer Lundstrom
  * @date: 22/07/2019
  * <p>
- * Description: Model for a inscription.
+ * Description: Model for an inscription.
  */
 public class Inscription implements Parcelable {
 

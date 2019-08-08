@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -30,8 +28,12 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.Task;
 
 import se.umu.chlu0125.inscriber.R;
+import se.umu.chlu0125.inscriber.models.Inscription;
+import se.umu.chlu0125.inscriber.models.Location;
+import se.umu.chlu0125.inscriber.models.User;
 
 /**
  * @author: Christoffer Lundstrom
@@ -54,11 +56,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private Button mInscribe;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mLocation;
+    private InscriptionService mService;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mLocation = new Location();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        mService = InscriptionService.getInstance();
     }
 
     @Override
@@ -81,6 +86,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
+        mService.getUserDataTask().addOnSuccessListener((snapshot) ->{
+            User user = snapshot.toObject(User.class);
+            populateMarkers(user);
+        });
 
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -95,7 +104,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), location -> {
                     if (location != null) {
-                        mLocation = location;
+                        mLocation.setLatitude(location.getLatitude());
+                        mLocation.setLongitude(location.getLongitude());
                         Log.d(TAG, "onMapReady: Location found. " + location.getLatitude() + " " + location.getLongitude());
                         zoomToPosition();
                     }
@@ -110,7 +120,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 mFusedLocationClient.getLastLocation()
                         .addOnSuccessListener(getActivity(), location -> {
                             if (location != null) {
-                                mLocation = location;
+                                mLocation.setLatitude(location.getLatitude());
+                                mLocation.setLongitude(location.getLongitude());
                                 Log.d(TAG, "onMapReady: Location found. " + location.getLatitude() + " " + location.getLongitude());
                             }
                         });
@@ -137,13 +148,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         if (requestCode == REQUEST_MARKER_CONFIRM) {
             Log.d(TAG, "onActivityResult: Map marker added.");
-            addMapMarker();
+            Inscription ins = (Inscription) data.getParcelableExtra(AddDialogFragment.EXTRA_MARKER);
 
+            mService.getLocalUser().getCollection().add(ins);
+            mService.setUserData();
+            addMapMarker();
         }
     }
 
     public void addMapMarker() {
         mMap.addMarker(new MarkerOptions().position(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())).title("Test"));
+    }
+
+    /**
+     *  Adds all MapMarkers of the Collection to the map.
+     */
+    private void populateMarkers(User user){
+        if (user != null){
+            for(Inscription ins: user.getCollection()){
+                mMap.addMarker(new MarkerOptions().position(new LatLng(ins.getLocation().getLatitude(), ins.getLocation().getLongitude())));
+            }
+        }
     }
 
 }

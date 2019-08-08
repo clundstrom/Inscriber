@@ -29,26 +29,32 @@ public class InscriptionService {
 
     public InscriptionService() {
         getInstanceId();
-        getUserDataTask().addOnSuccessListener( (snapshot) -> {
+        getUserDataTask().addOnSuccessListener((snapshot) -> {
             mLocalUser = snapshot.toObject(User.class);
         });
     }
 
-    public static InscriptionService getInstance(){
-        if(instance == null){
+    public static InscriptionService getInstance() {
+        if (instance == null) {
             instance = new InscriptionService();
         }
         return instance;
     }
 
+    /**
+     * @return Returns an async task which provides a snapshot of the current User document. Must be awaited by the caller.
+     */
     public Task<DocumentSnapshot> getUserDataTask() {
         mUserDocRef = mFirebaseDbInstance.collection("users").document(mIdToken);
-        if (mUserDocRef == null){
+        if (mUserDocRef == null) {
             Log.e(TAG, "getUserDataTask: Error fetching Inscriptions. User does not exist.");
         }
         return mUserDocRef.get();
     }
 
+    /**
+     * Saves the current instance of Local User to Cloud Firestore.
+     */
     public void setUserData() {
         mFirebaseDbInstance.collection("users").document(mIdToken).set(mLocalUser)
                 .addOnSuccessListener((success) -> {
@@ -58,6 +64,7 @@ public class InscriptionService {
                     Log.e(TAG, "setUserData: Failed.");
                 });
     }
+
 
     /**
      * Firebase Instance ID provides a unique identifier for each app instance and a mechanism to authenticate and authorize actions.
@@ -73,7 +80,12 @@ public class InscriptionService {
         }
     }
 
-    public User getLocalUser(){
+    /**
+     * Unsafe function to retrieve user. Possible Null-pointer.
+     *
+     * @return Returns local user.
+     */
+    public User getLocalUser() {
         return mLocalUser;
     }
 }

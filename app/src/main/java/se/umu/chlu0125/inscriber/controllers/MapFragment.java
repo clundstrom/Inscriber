@@ -28,7 +28,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.Task;
 
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
@@ -86,7 +85,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
-        mService.getUserDataTask().addOnSuccessListener((snapshot) ->{
+        mService.getUserDataTask().addOnSuccessListener((snapshot) -> {
             User user = snapshot.toObject(User.class);
             populateMarkers(user);
         });
@@ -149,7 +148,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (requestCode == REQUEST_MARKER_CONFIRM) {
             Log.d(TAG, "onActivityResult: Map marker added.");
             Inscription ins = (Inscription) data.getParcelableExtra(AddDialogFragment.EXTRA_MARKER);
-
             mService.getLocalUser().getCollection().add(ins);
             mService.setUserData();
             addMapMarker();
@@ -161,14 +159,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     *  Adds all MapMarkers of the Collection to the map.
+     * Adds all MapMarkers of the Collection to the map.
      */
-    private void populateMarkers(User user){
-        if (user != null){
-            for(Inscription ins: user.getCollection()){
+    private void populateMarkers(User user) {
+        if (user != null) {
+            for (Inscription ins : user.getCollection()) {
                 mMap.addMarker(new MarkerOptions().position(new LatLng(ins.getLocation().getLatitude(), ins.getLocation().getLongitude())));
             }
         }
     }
-
 }

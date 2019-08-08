@@ -48,6 +48,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final int REQUEST_PERMISSION = 9000;
     private static final int REQUEST_MARKER_CONFIRM = 9001;
     private static final int DEFAULT_MAP_ZOOM = 5;
+    private static MapFragment mMapFragment;
 
     private MapView mapView;
     private GoogleMap mMap;
@@ -56,6 +57,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mLocation;
     private InscriptionService mService;
+
+    public static MapFragment getInstance(){
+        if(mMapFragment == null){
+            return new MapFragment();
+        }
+        else{
+            return mMapFragment;
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -139,6 +149,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+
+    /**
+     * Receives an Inscription from AddDialogFragment and saves to the database.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -150,6 +167,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Inscription ins = (Inscription) data.getParcelableExtra(AddDialogFragment.EXTRA_MARKER);
             mService.getLocalUser().getCollection().add(ins);
             mService.setUserData();
+            InscriptionListFragment.getInstance();
             addMapMarker();
         }
     }

@@ -32,6 +32,9 @@ public class InscriptionService {
         getUserDataTask().addOnSuccessListener((snapshot) -> {
             mLocalUser = snapshot.toObject(User.class);
         });
+        if (mLocalUser == null){
+            mLocalUser = new User();
+        }
     }
 
     public static InscriptionService getInstance() {
@@ -86,6 +89,9 @@ public class InscriptionService {
      * @return Returns local user.
      */
     public User getLocalUser() {
+        if(mLocalUser == null){
+            mLocalUser = new User();
+        }
         return mLocalUser;
     }
 }

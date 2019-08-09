@@ -46,7 +46,6 @@ public class Inscription extends ViewModel implements Parcelable {
     }
     public Inscription(){
         mDate = Timestamp.now();
-        mMessage = "Test";
     }
 
     public static final Creator<Inscription> CREATOR = new Creator<Inscription>() {

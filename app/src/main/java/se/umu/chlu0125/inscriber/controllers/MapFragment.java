@@ -105,9 +105,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
 
-        //User user = mService.getUserData(getActivity());
-
-
+        // Listen for updates.
         mService.getUserDataTask().addSnapshotListener( (snapshot, err) -> {
             if(snapshot != null && snapshot.exists()){
                 User tmp = snapshot.toObject(User.class);
@@ -161,6 +159,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    /**
+     * Moves and zooms the camera to current location.
+     */
     private void zoomToPosition() {
         if (mLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())));

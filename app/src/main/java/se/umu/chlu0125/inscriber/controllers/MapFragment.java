@@ -188,9 +188,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             // Add inscription to Collection
             mService.getUserData(getActivity()).getCollection().add(ins);
 
-            // Save to Local
-            mService.setLocalUserData(getActivity());
-
             //Save to Cloud
             mService.setDbUserData();
 

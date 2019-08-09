@@ -28,6 +28,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
@@ -71,7 +72,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLocation = new Location();
+
+        if(savedInstanceState != null){
+            mLocation = (Location)savedInstanceState.getSerializable("Location");
+        }
+        else{
+            mLocation = new Location();
+        }
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         mService = InscriptionService.getInstance();
     }
@@ -97,14 +105,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
 
-        User user = mService.getUserData(getActivity());
-        populateMarkers(user);
+        //User user = mService.getUserData(getActivity());
 
 
-//        mService.getUserDataTask().addOnSuccessListener((snapshot) -> {
-//            User user = snapshot.toObject(User.class);
-//            populateMarkers(user);
-//        });
+        mService.getUserDataTask().addSnapshotListener( (snapshot, err) -> {
+            if(snapshot != null && snapshot.exists()){
+                User tmp = snapshot.toObject(User.class);
+                Log.d(TAG, "InscriptionService: User exists.");
+                populateMarkers(tmp);
+            }
+            else {
+                Log.d(TAG, "InscriptionService: Snapshot null.");
+            }
+        });
 
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -172,17 +185,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Log.d(TAG, "onActivityResult: Map marker added.");
             Inscription ins = (Inscription) data.getParcelableExtra(AddDialogFragment.EXTRA_MARKER);
 
-            //Save Local
+            // Add inscription to Collection
             mService.getUserData(getActivity()).getCollection().add(ins);
+
+            // Save to Local
             mService.setLocalUserData(getActivity());
 
-            //Save Db
-            //mService.setDbUserData();
+            //Save to Cloud
+            mService.setDbUserData();
+
+            //Update adapter
             InscriptionListFragment.getInstance().updateAdapter(mService.getUserData(getActivity()).getCollection());
+
             addMapMarker();
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("Location", mLocation);
+    }
+
+    /**
+     * Adds a marker to the main map fragment.
+     */
     public void addMapMarker() {
         mMap.addMarker(new MarkerOptions().position(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())).title("Test"));
     }

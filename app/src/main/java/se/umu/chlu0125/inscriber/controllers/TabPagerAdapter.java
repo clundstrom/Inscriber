@@ -14,7 +14,7 @@ import se.umu.chlu0125.inscriber.R;
  * <p>
  * Description: Pages between Fragments.
  */
-public class TabPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
+public class TabPagerAdapter extends FragmentPagerAdapter {
 
     Context mContext;
     private static final String TAG = "TabPagerAdapter";
@@ -52,21 +52,6 @@ public class TabPagerAdapter extends FragmentPagerAdapter implements ViewPager.O
             default:
                 return null;
         }
-
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        InscriptionListFragment.getInstance().updateUI();
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
 
     }
 }

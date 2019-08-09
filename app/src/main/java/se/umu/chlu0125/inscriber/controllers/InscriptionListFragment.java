@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -77,16 +76,12 @@ public class InscriptionListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
         View view = inflater.inflate(R.layout.inscription_recyclerview, container, false);
-
         mInscriptionRecyclerView = (RecyclerView) view.findViewById(R.id.inscription_recycler);
         mInscriptionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         updateUI();
         return view;
     }
-
 
     /**
      * Internal class responsible for handling clicks and inflation of each Inscription in the RecyclerView.
@@ -94,12 +89,10 @@ public class InscriptionListFragment extends Fragment {
     private class InscriptionItem extends RecyclerView.ViewHolder implements View.OnClickListener, OnMapReadyCallback {
 
         private Inscription mInscription;
-
         private TextView mDate;
         private TextView mMessage;
         private MapView mLocationPreview;
         GoogleMap map;
-
 
         public InscriptionItem(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.inscription_item, parent, false));
@@ -115,11 +108,13 @@ public class InscriptionListFragment extends Fragment {
             }
         }
 
+        /**
+         * Binds data to appropriate UI views of the Recycler-Items.
+         * @param inscription
+         */
         public void bind(Inscription inscription) {
             mInscription = inscription;
-
             mMessage.setText(inscription.getMessage());
-            //mImage.setImageResource(R.drawable.common_google_signin_btn_icon_dark);
             Date date = inscription.getDate().toDate();
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
             mDate.setText(formatter.format(date));
@@ -127,9 +122,12 @@ public class InscriptionListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            // When an item is clicked.
         }
 
+        /**
+         * Sets the Preview-Map location of each Inscription in the Adapter-class.
+         * @param googleMap A google Lite-mode map object.
+         */
         @Override
         public void onMapReady(GoogleMap googleMap) {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -137,6 +135,9 @@ public class InscriptionListFragment extends Fragment {
             setMapLocation();
         }
 
+        /**
+         * Sets the marker and Location of each saved Inscription in "Your Inscription" view.
+         */
         private void setMapLocation() {
             if (map == null) return;
 
@@ -156,8 +157,9 @@ public class InscriptionListFragment extends Fragment {
     }
 
 
-
-
+    /**
+     * Internal class which implements custom mutable Recycler list.
+     */
     private class InscriptionAdapter extends RecyclerView.Adapter<InscriptionItem> {
 
         private List<Inscription> mInscriptions;
@@ -189,6 +191,10 @@ public class InscriptionListFragment extends Fragment {
             return mInscriptions.size();
         }
 
+        /**
+         * Clears list and replaces all instances with a new list.
+         * @param list A list of Inscriptions
+         */
         public void updateData(List<Inscription> list) {
             mInscriptions.clear();
             mInscriptions.addAll(list);
@@ -208,9 +214,13 @@ public class InscriptionListFragment extends Fragment {
         Log.d(TAG, "updateUI: UI updated.");
     }
 
+    /**
+     * Sends changes to InscriptionAdapter and notifies a DataSetChange.
+     * @param list List of Inscriptions.
+     */
     public void updateAdapter(List<Inscription> list) {
         mAdapter.updateData(list);
         mAdapter.notifyDataSetChanged();
-        Log.d(TAG, "updateAdapter: Updated from MapFragment.");
+        Log.d(TAG, "updateAdapter: Success.");
     }
 }

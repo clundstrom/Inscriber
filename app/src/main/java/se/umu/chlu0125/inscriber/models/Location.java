@@ -2,6 +2,8 @@ package se.umu.chlu0125.inscriber.models;
 
 import android.location.LocationManager;
 
+import java.io.Serializable;
+
 
 /**
  * @author: Christoffer Lundstrom
@@ -12,7 +14,7 @@ import android.location.LocationManager;
  * database. Instantiating objects from firebase requires a no-parameter constructor which Android does not supply.
  *
  */
-public class Location {
+public class Location implements Serializable {
 
     private double mLatitude;
     private double mLongitude;

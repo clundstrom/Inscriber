@@ -55,11 +55,11 @@ public class InscriptionService {
      */
     public User getUserData(Context context) {
         mUser = getLocalUserData(context);
-        getUserDataTask().addOnSuccessListener((snapshot -> {
 
-            mUser = snapshot.toObject(User.class);
-            Log.d(TAG, "getUserData: Global user found.");
-        }));
+//        getUserDataTask().addOnSuccessListener((snapshot -> {
+//            mUser = snapshot.toObject(User.class);
+//            Log.d(TAG, "getUserData: Global user found.");
+//        }));
 
         if (mUser == null) {
             mUser = new User(); // no user found

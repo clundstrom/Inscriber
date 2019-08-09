@@ -21,6 +21,7 @@ import java.util.List;
 
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
+import se.umu.chlu0125.inscriber.models.User;
 
 
 /**
@@ -51,9 +52,8 @@ public class InscriptionListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mService = InscriptionService.getInstance();
+        mDisplayCollection = mService.getUserData(getActivity()).getCollection();
 
-        // Fetch data
-        mDisplayCollection = mService.getInstance().getUserData(getActivity()).getCollection();
     }
 
     @Override
@@ -78,7 +78,6 @@ public class InscriptionListFragment extends Fragment {
         mInscriptionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
-
         return view;
     }
 
@@ -152,7 +151,7 @@ public class InscriptionListFragment extends Fragment {
             return mInscriptions.size();
         }
 
-        public void updateData(List<Inscription> list){
+        public void updateData(List<Inscription> list) {
             mInscriptions.clear();
             mInscriptions.addAll(list);
         }
@@ -166,10 +165,14 @@ public class InscriptionListFragment extends Fragment {
             mAdapter = new InscriptionAdapter(mDisplayCollection);
             mInscriptionRecyclerView.setAdapter(mAdapter);
         } else {
-            mDisplayCollection = mService.getInstance().getUserData(getActivity()).getCollection();
-            mAdapter.updateData(mDisplayCollection);
             mAdapter.notifyDataSetChanged();
         }
         Log.d(TAG, "updateUI: UI updated.");
+    }
+
+    public void updateAdapter(List<Inscription> list) {
+        mAdapter.updateData(list);
+        mAdapter.notifyDataSetChanged();
+        Log.d(TAG, "updateAdapter: Updated from MapFragment.");
     }
 }

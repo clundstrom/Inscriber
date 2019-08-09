@@ -3,14 +3,11 @@ package se.umu.chlu0125.inscriber.controllers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import se.umu.chlu0125.inscriber.R;
-import se.umu.chlu0125.inscriber.models.User;
 
 
 /**

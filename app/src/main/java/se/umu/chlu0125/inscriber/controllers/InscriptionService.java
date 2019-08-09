@@ -4,13 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
-
 import se.umu.chlu0125.inscriber.models.User;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -19,7 +16,7 @@ import static android.content.Context.MODE_PRIVATE;
  * @author: Christoffer Lundstrom
  * @date: 03/08/2019
  * <p>
- * Description: A service which handles read, write operations on Cloud Firestore.
+ * Description: A service which handles read, write operations on Cloud Firestore and Local Storage.
  */
 
 public class InscriptionService {
@@ -34,8 +31,14 @@ public class InscriptionService {
 
     public InscriptionService() {
         getInstanceId();
-        getUserDataTask().addOnSuccessListener((snapshot) -> {
-            mUser = snapshot.toObject(User.class);
+        getUserDataTask().addSnapshotListener( (snapshot, err) -> {
+            if(snapshot != null && snapshot.exists()){
+                mUser = snapshot.toObject(User.class);
+                Log.d(TAG, "InscriptionService: User updated from Cloud.");
+            }
+            else {
+                Log.d(TAG, "InscriptionService: Snapshot null.");
+            }
         });
     }
 
@@ -46,23 +49,21 @@ public class InscriptionService {
         return instance;
     }
 
-
     /**
-     * Fetches User data from local and global database. Prioritizes Global data.
+     * Fetches User from database. Prioritizes Cloud data over Local storage.
      *
      * @param context
      * @return
      */
     public User getUserData(Context context) {
-        mUser = getLocalUserData(context);
+        if(mUser == null){
+            mUser = getLocalUserData(context);
+            Log.d(TAG, "getUserData: ");
+        }
 
-//        getUserDataTask().addOnSuccessListener((snapshot -> {
-//            mUser = snapshot.toObject(User.class);
-//            Log.d(TAG, "getUserData: Global user found.");
-//        }));
-
+        // User still null? Create new user
         if (mUser == null) {
-            mUser = new User(); // no user found
+            mUser = new User();
         }
         return mUser;
     }
@@ -70,12 +71,12 @@ public class InscriptionService {
     /**
      * @return Returns an async task which provides a snapshot of the current User document. Must be awaited by the caller.
      */
-    public Task<DocumentSnapshot> getUserDataTask() {
+    public DocumentReference getUserDataTask() {
         mUserDocRef = mFirebaseDbInstance.collection("users").document(mIdToken);
         if (mUserDocRef == null) {
             Log.e(TAG, "getUserDataTask: Error fetching Inscriptions. User does not exist.");
         }
-        return mUserDocRef.get();
+        return mUserDocRef;
     }
 
     /**
@@ -118,7 +119,6 @@ public class InscriptionService {
         Gson gson = new Gson();
         String json = mPrefs.getString("User", "");
         User user = gson.fromJson(json, User.class);
-        Log.d(TAG, "getLocalUserData: Local user found.");
         return user;
     }
 

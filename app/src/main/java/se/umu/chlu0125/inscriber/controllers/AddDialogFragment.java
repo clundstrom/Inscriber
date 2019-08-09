@@ -34,7 +34,7 @@ import se.umu.chlu0125.inscriber.models.Location;
 public class AddDialogFragment extends DialogFragment {
 
     private static final String TAG = "AddDialogFragment";
-    private static final int MIN_MSG_LENGTH = 5;
+    private static final int MIN_MSG_LENGTH = 1;
     private static final int MAX_MSG_LENGTH = 140;
     public static final String EXTRA_MARKER = "se.umu.chlu0125.inscriber.models.Inscription";
     private static Inscription mInscription;

@@ -5,53 +5,61 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/GrayBg"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/buttonText">
+        android:background="@color/GrayBg">
 
-        <ImageView
-            android:id="@+id/inscription_item_image"
-            android:layout_width="match_parent"
-            android:layout_height="193dp"
-            android:layout_marginStart="8dp"
+        <View
+            android:id="@+id/item_box"
+            android:layout_width="361dp"
+            android:layout_height="306dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/buttonText"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/inscription_item_map"
+            android:layout_width="316dp"
+            android:layout_height="123dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/item_box"
+            app:layout_constraintStart_toStartOf="@+id/item_box"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/inscription_item_message"
-            android:layout_width="345dp"
-            android:layout_height="97dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="264dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="303dp"
+            android:layout_height="94dp"
+            android:layout_marginTop="60dp"
             android:text="Message"
             android:textColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/inscription_item_image" />
+            app:layout_constraintEnd_toEndOf="@+id/item_box"
+            app:layout_constraintHorizontal_bias="0.396"
+            app:layout_constraintStart_toStartOf="@+id/item_box"
+            app:layout_constraintTop_toBottomOf="@+id/inscription_item_map" />
 
         <TextView
             android:id="@+id/inscription_item_date"
             android:layout_width="147dp"
             android:layout_height="34dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:text="date"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.004"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inscription_item_image" />
+            app:layout_constraintStart_toStartOf="@+id/item_box"
+            app:layout_constraintTop_toBottomOf="@+id/inscription_item_map" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

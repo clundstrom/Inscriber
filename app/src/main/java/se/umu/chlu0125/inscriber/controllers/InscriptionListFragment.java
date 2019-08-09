@@ -1,6 +1,5 @@
 package se.umu.chlu0125.inscriber.controllers;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,13 +14,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
-import se.umu.chlu0125.inscriber.models.User;
 
 
 /**
@@ -85,29 +91,35 @@ public class InscriptionListFragment extends Fragment {
     /**
      * Internal class responsible for handling clicks and inflation of each Inscription in the RecyclerView.
      */
-    private class InscriptionItem extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class InscriptionItem extends RecyclerView.ViewHolder implements View.OnClickListener, OnMapReadyCallback {
 
-        private final ImageView mImage;
         private Inscription mInscription;
 
         private TextView mDate;
         private TextView mMessage;
-        // TODO private ImageView mLocationPreview;
+        private MapView mLocationPreview;
+        GoogleMap map;
 
 
         public InscriptionItem(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.inscription_item, parent, false));
 
-            mImage = itemView.findViewById(R.id.inscription_item_image);
+            mLocationPreview = itemView.findViewById(R.id.inscription_item_map);
             mDate = itemView.findViewById(R.id.inscription_item_date);
             mMessage = itemView.findViewById(R.id.inscription_item_message);
+
+            if(mLocationPreview != null){
+                mLocationPreview.onCreate(null);
+                mLocationPreview.onResume();
+                mLocationPreview.getMapAsync(this);
+            }
         }
 
         public void bind(Inscription inscription) {
             mInscription = inscription;
 
             mMessage.setText(inscription.getMessage());
-            mImage.setImageResource(R.drawable.common_google_signin_btn_icon_dark);
+            //mImage.setImageResource(R.drawable.common_google_signin_btn_icon_dark);
             Date date = inscription.getDate().toDate();
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
             mDate.setText(formatter.format(date));
@@ -117,7 +129,33 @@ public class InscriptionListFragment extends Fragment {
         public void onClick(View v) {
             // When an item is clicked.
         }
+
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+            map = googleMap;
+            setMapLocation();
+        }
+
+        private void setMapLocation() {
+            if (map == null) return;
+
+            if (mInscription == null) return;
+
+
+            // Add a marker for this item and set the camera
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
+                    mInscription.getLocation().getLatitude(), mInscription.getLocation().getLongitude()
+            ), 15f));
+
+            map.addMarker(new MarkerOptions().position(new LatLng(
+                    mInscription.getLocation().getLatitude(), mInscription.getLocation().getLongitude()
+            )));
+
+        }
     }
+
+
 
 
     private class InscriptionAdapter extends RecyclerView.Adapter<InscriptionItem> {

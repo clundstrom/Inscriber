@@ -22,11 +22,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
+import se.umu.chlu0125.inscriber.models.User;
 
 
 /**
@@ -56,8 +58,14 @@ public class InscriptionListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDisplayCollection = new ArrayList<>();
         mService = InscriptionService.getInstance();
-        mDisplayCollection = mService.getUserData(getActivity()).getCollection();
+        mService.getUserDataTask().addSnapshotListener( ((snapshot, e) -> {
+            if(snapshot != null && snapshot.exists()){
+                mDisplayCollection = snapshot.toObject(User.class).getCollection();
+                updateAdapter(mDisplayCollection);
+            }
+        }));
 
     }
 

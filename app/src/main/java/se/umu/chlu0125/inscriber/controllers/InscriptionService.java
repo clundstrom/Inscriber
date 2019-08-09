@@ -56,10 +56,10 @@ public class InscriptionService {
      * @return
      */
     public User getUserData(Context context) {
-        if(mUser == null){
-            mUser = getLocalUserData(context);
-            Log.d(TAG, "getUserData: ");
-        }
+//        if(mUser == null){
+//            mUser = getLocalUserData(context);
+//            Log.d(TAG, "getUserData: ");
+//        }
 
         // User still null? Create new user
         if (mUser == null) {

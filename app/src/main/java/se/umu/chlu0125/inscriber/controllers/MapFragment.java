@@ -96,10 +96,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
-        mService.getUserDataTask().addOnSuccessListener((snapshot) -> {
-            User user = snapshot.toObject(User.class);
-            populateMarkers(user);
-        });
+
+        User user = mService.getUserData(getActivity());
+        populateMarkers(user);
+
+
+//        mService.getUserDataTask().addOnSuccessListener((snapshot) -> {
+//            User user = snapshot.toObject(User.class);
+//            populateMarkers(user);
+//        });
 
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -172,8 +177,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mService.setLocalUserData(getActivity());
 
             //Save Db
-            mService.setDbUserData();
-            InscriptionListFragment.getInstance().updateUI();
+            //mService.setDbUserData();
+            InscriptionListFragment.getInstance().updateAdapter(mService.getUserData(getActivity()).getCollection());
             addMapMarker();
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import se.umu.chlu0125.inscriber.R;
 
@@ -13,7 +14,7 @@ import se.umu.chlu0125.inscriber.R;
  * <p>
  * Description: Pages between Fragments.
  */
-public class TabPagerAdapter extends FragmentPagerAdapter {
+public class TabPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
 
     Context mContext;
     private static final String TAG = "TabPagerAdapter";
@@ -51,6 +52,21 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
             default:
                 return null;
         }
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        InscriptionListFragment.getInstance().updateUI();
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
     }
 }

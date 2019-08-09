@@ -1,5 +1,6 @@
 package se.umu.chlu0125.inscriber.controllers;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,13 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
-import se.umu.chlu0125.inscriber.models.User;
 
 
 /**
@@ -37,10 +36,12 @@ public class InscriptionListFragment extends Fragment {
     private RecyclerView mInscriptionRecyclerView;
     private InscriptionAdapter mAdapter;
     private List<Inscription> mDisplayCollection;
+    private InscriptionService mService;
 
     public static InscriptionListFragment getInstance() {
         if (mFragment == null) {
-            return new InscriptionListFragment();
+            mFragment = new InscriptionListFragment();
+            return mFragment;
         } else {
             return mFragment;
         }
@@ -49,12 +50,10 @@ public class InscriptionListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mService = InscriptionService.getInstance();
 
-        InscriptionService.getInstance().getUserDataTask().addOnSuccessListener(snapshot -> {
-            mDisplayCollection = snapshot.toObject(User.class).getCollection();
-            Log.d(TAG, "onCreateView: Fetched InsCollection.");
-        });
-
+        // Fetch data
+        mDisplayCollection = mService.getInstance().getUserData(getActivity()).getCollection();
     }
 
     @Override
@@ -65,36 +64,24 @@ public class InscriptionListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        updateUI();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
         View view = inflater.inflate(R.layout.inscription_recyclerview, container, false);
 
         mInscriptionRecyclerView = (RecyclerView) view.findViewById(R.id.inscription_recycler);
         mInscriptionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        InscriptionService.getInstance().getUserDataTask().addOnSuccessListener((snapshot -> {
-            User user = snapshot.toObject(User.class);
-
-            if (user == null) {
-                user = new User();
-                mDisplayCollection = new ArrayList<Inscription>();
-            }
-
-            mAdapter = new InscriptionAdapter(mDisplayCollection);
-            mInscriptionRecyclerView.setAdapter(mAdapter);
-        }));
+        updateUI();
 
         return view;
     }
 
-    public void updateList(Inscription ins) {
-        mDisplayCollection.add(ins);
-        mAdapter.notifyDataSetChanged();
-    }
 
     /**
      * Internal class responsible for handling clicks and inflation of each Inscription in the RecyclerView.
@@ -164,5 +151,25 @@ public class InscriptionListFragment extends Fragment {
         public int getItemCount() {
             return mInscriptions.size();
         }
+
+        public void updateData(List<Inscription> list){
+            mInscriptions.clear();
+            mInscriptions.addAll(list);
+        }
+    }
+
+    /**
+     * Update UI function which prioritizes global data over locally stored.
+     */
+    public void updateUI() {
+        if (mAdapter == null) {
+            mAdapter = new InscriptionAdapter(mDisplayCollection);
+            mInscriptionRecyclerView.setAdapter(mAdapter);
+        } else {
+            mDisplayCollection = mService.getInstance().getUserData(getActivity()).getCollection();
+            mAdapter.updateData(mDisplayCollection);
+            mAdapter.notifyDataSetChanged();
+        }
+        Log.d(TAG, "updateUI: UI updated.");
     }
 }

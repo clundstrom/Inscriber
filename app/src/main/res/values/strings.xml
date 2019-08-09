@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Inscriber</string>
     <string name="desc_bg">Cloudy background.</string>
+    <string name="preference_file_key">se.umu.chlu0125.inscriber</string>
 
     <!-- GUIDE STRINGS -->
     <string name="guide_slide1_step1">Travel to your destination</string>

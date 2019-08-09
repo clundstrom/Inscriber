@@ -1,5 +1,7 @@
 package se.umu.chlu0125.inscriber.controllers;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
@@ -7,8 +9,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 
 import se.umu.chlu0125.inscriber.models.User;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * @author: Christoffer Lundstrom
@@ -24,17 +29,14 @@ public class InscriptionService {
     private static FirebaseFirestore mFirebaseDbInstance;
     private static FirebaseInstanceId mInstanceId;
     private static String mIdToken;
-    private static User mLocalUser;
+    private static User mUser;
     private DocumentReference mUserDocRef;
 
     public InscriptionService() {
         getInstanceId();
         getUserDataTask().addOnSuccessListener((snapshot) -> {
-            mLocalUser = snapshot.toObject(User.class);
+            mUser = snapshot.toObject(User.class);
         });
-        if (mLocalUser == null){
-            mLocalUser = new User();
-        }
     }
 
     public static InscriptionService getInstance() {
@@ -42,6 +44,27 @@ public class InscriptionService {
             instance = new InscriptionService();
         }
         return instance;
+    }
+
+
+    /**
+     * Fetches User data from local and global database. Prioritizes Global data.
+     *
+     * @param context
+     * @return
+     */
+    public User getUserData(Context context) {
+        mUser = getLocalUserData(context);
+        getUserDataTask().addOnSuccessListener((snapshot -> {
+
+            mUser = snapshot.toObject(User.class);
+            Log.d(TAG, "getUserData: Global user found.");
+        }));
+
+        if (mUser == null) {
+            mUser = new User(); // no user found
+        }
+        return mUser;
     }
 
     /**
@@ -58,14 +81,45 @@ public class InscriptionService {
     /**
      * Saves the current instance of Local User to Cloud Firestore.
      */
-    public void setUserData() {
-        mFirebaseDbInstance.collection("users").document(mIdToken).set(mLocalUser)
+    public void setDbUserData() {
+        mFirebaseDbInstance.collection("users").document(mIdToken).set(mUser)
                 .addOnSuccessListener((success) -> {
-                    Log.d(TAG, "setUserData: Success.");
+                    Log.d(TAG, "setDbUserData: Success.");
                 })
                 .addOnFailureListener((fail) -> {
-                    Log.e(TAG, "setUserData: Failed.");
+                    Log.e(TAG, "setDbUserData: Failed.");
                 });
+    }
+
+
+    /**
+     * Saves the currently stored Local User.
+     *
+     * @param context
+     */
+
+    public void setLocalUserData(Context context) {
+        SharedPreferences mPrefs = context.getSharedPreferences("se.umu.chlu0125.inscriber", MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mUser);
+        prefsEditor.putString("User", json);
+        prefsEditor.commit();
+        Log.d(TAG, "setLocalUserData: Local User Saved.");
+    }
+
+    /**
+     * @param context
+     * @return Returns currently stored Local User.
+     */
+    public User getLocalUserData(Context context) {
+        SharedPreferences mPrefs = context.getSharedPreferences("se.umu.chlu0125.inscriber", MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = mPrefs.getString("User", "");
+        User user = gson.fromJson(json, User.class);
+        Log.d(TAG, "getLocalUserData: Local user found.");
+        return user;
     }
 
 
@@ -81,17 +135,5 @@ public class InscriptionService {
             mInstanceId = FirebaseInstanceId.getInstance();
             mIdToken = mInstanceId.getId();
         }
-    }
-
-    /**
-     * Unsafe function to retrieve user. Possible Null-pointer.
-     *
-     * @return Returns local user.
-     */
-    public User getLocalUser() {
-        if(mLocalUser == null){
-            mLocalUser = new User();
-        }
-        return mLocalUser;
     }
 }

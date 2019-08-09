@@ -60,7 +60,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public static MapFragment getInstance(){
         if(mMapFragment == null){
-            return new MapFragment();
+            mMapFragment = new MapFragment();
+            return mMapFragment;
         }
         else{
             return mMapFragment;
@@ -165,9 +166,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (requestCode == REQUEST_MARKER_CONFIRM) {
             Log.d(TAG, "onActivityResult: Map marker added.");
             Inscription ins = (Inscription) data.getParcelableExtra(AddDialogFragment.EXTRA_MARKER);
-            mService.getLocalUser().getCollection().add(ins);
-            mService.setUserData();
-            InscriptionListFragment.getInstance();
+
+            //Save Local
+            mService.getUserData(getActivity()).getCollection().add(ins);
+            mService.setLocalUserData(getActivity());
+
+            //Save Db
+            mService.setDbUserData();
+            InscriptionListFragment.getInstance().updateUI();
             addMapMarker();
         }
     }

@@ -1,6 +1,8 @@
 package se.umu.chlu0125.inscriber.controllers;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,11 +42,13 @@ import se.umu.chlu0125.inscriber.models.User;
 public class InscriptionListFragment extends Fragment {
 
     private static final String TAG = "InscriptionListFragment";
+    private static final String KEY_RECYCLER_STATE = "KEY_RECYCLER_STATE";
     private static InscriptionListFragment mFragment;
     private RecyclerView mInscriptionRecyclerView;
     private InscriptionAdapter mAdapter;
     private List<Inscription> mDisplayCollection;
-    private InscriptionService mService;
+    private LinearLayoutManager mLayoutManager;
+    private Bundle mBundleRecyclerViewState;
 
     public static InscriptionListFragment getInstance() {
         if (mFragment == null) {
@@ -59,36 +63,54 @@ public class InscriptionListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDisplayCollection = new ArrayList<>();
-        mService = InscriptionService.getInstance();
-        mService.getUserDataTask().addSnapshotListener( ((snapshot, e) -> {
-            if(snapshot != null && snapshot.exists()){
-                mDisplayCollection = snapshot.toObject(User.class).getCollection();
-                updateAdapter(mDisplayCollection);
-            }
-        }));
-
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUI();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        Log.d(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.inscription_recyclerview, container, false);
+
         mInscriptionRecyclerView = (RecyclerView) view.findViewById(R.id.inscription_recycler);
-        mInscriptionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mInscriptionRecyclerView.setLayoutManager(mLayoutManager);
         updateUI();
+
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Listen for changes.
+        InscriptionService.getInstance().getUserDataTask().addSnapshotListener( ((snapshot, e) -> {
+            if(e != null){
+                Log.e(TAG, "onCreateView: " + e.getMessage());
+            }
+
+            if(snapshot != null && snapshot.exists()){
+                mDisplayCollection = snapshot.toObject(User.class).getCollection();
+                updateAdapter(mDisplayCollection);
+            }
+        }));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBundleRecyclerViewState = new Bundle();
+        Parcelable listState = mInscriptionRecyclerView.getLayoutManager().onSaveInstanceState();
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, listState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mBundleRecyclerViewState != null) {
+            Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+            mInscriptionRecyclerView.getLayoutManager().onRestoreInstanceState(listState);
+            mInscriptionRecyclerView.setAdapter(mAdapter);
+        }
     }
 
     /**
@@ -151,7 +173,6 @@ public class InscriptionListFragment extends Fragment {
 
             if (mInscription == null) return;
 
-
             // Add a marker for this item and set the camera
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
                     mInscription.getLocation().getLatitude(), mInscription.getLocation().getLongitude()
@@ -184,6 +205,7 @@ public class InscriptionListFragment extends Fragment {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             return new InscriptionItem(layoutInflater, parent);
         }
+
 
         /**
          * Bind Inscription to the placeholder in the Recycler List.
@@ -232,3 +254,5 @@ public class InscriptionListFragment extends Fragment {
         Log.d(TAG, "updateAdapter: Success.");
     }
 }
+
+

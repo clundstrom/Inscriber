@@ -28,7 +28,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.firestore.ListenerRegistration;
 
 import se.umu.chlu0125.inscriber.R;
 import se.umu.chlu0125.inscriber.models.Inscription;
@@ -58,7 +57,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mLocation;
     private InscriptionService mService;
-    private User localUser;
+    private User mLocalUser;
 
     public static MapFragment getInstance(){
         if(mMapFragment == null){
@@ -109,9 +108,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Listen for updates.
         mService.getUserDataTask().addSnapshotListener( (snapshot, err) -> {
             if(snapshot != null && snapshot.exists()){
-                User tmp = snapshot.toObject(User.class);
+                mLocalUser = snapshot.toObject(User.class);
                 Log.d(TAG, "InscriptionService: User exists.");
-                populateMarkers(tmp);
+                populateMarkers(mLocalUser);
             }
             else {
                 Log.d(TAG, "InscriptionService: Snapshot null.");
@@ -187,23 +186,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Log.d(TAG, "onActivityResult: Map marker added.");
             Inscription ins = (Inscription) data.getParcelableExtra(AddDialogFragment.EXTRA_MARKER);
 
-            // Add inscription to Collection
-            mService.getUserDataTask().addSnapshotListener( ((snapshot, e) -> {
-                if(e!= null){
-                    Log.e(TAG, "onActivityResult: Listener-error: " + e.getMessage());
-                }
-
-                if (snapshot != null && snapshot.exists()){
-                    localUser = snapshot.toObject(User.class);
-                }
-            }));
-
-            if (localUser == null){
-                localUser = new User();
+            if (mLocalUser == null){
+                mLocalUser = new User();
             }
 
-            localUser.getCollection().add(ins);
-            mService.setDbUserData(localUser);
+            mLocalUser.getCollection().add(ins);
+            mService.setDbUserData(mLocalUser);
             addMapMarker();
         }
     }

@@ -7,58 +7,65 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="37dp" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="608dp"
+        android:layout_marginTop="116dp"
         android:layout_marginEnd="8dp"
         android:text="Button"
+        android:textColor="@color/buttonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/guide_greet"
         android:layout_width="322dp"
         android:layout_height="130dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="8dp"
         android:alpha="87"
         android:fontFamily="@font/roboto"
         android:gravity="center"
         android:text="@string/guide_slide1_step1"
         android:textColor="@android:color/primary_text_light"
         android:textSize="48sp"
-        tools:layout_editor_absoluteY="601dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.575"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="413dp"
         android:layout_height="565dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_car1" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="310dp"
         android:layout_height="116dp"
+        android:layout_marginTop="172dp"
         android:alpha="87"
         android:fontFamily="@font/roboto"
         android:gravity="center"
         android:text="@string/guide_slide1_phone"
         android:textColor="@android:color/primary_text_light"
         android:textSize="48sp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="731dp" />
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/guide_greet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

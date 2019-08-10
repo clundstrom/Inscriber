@@ -31,15 +31,6 @@ public class InscriptionService {
 
     public InscriptionService() {
         getInstanceId();
-        getUserDataTask().addSnapshotListener( (snapshot, err) -> {
-            if(snapshot != null && snapshot.exists()){
-                mUser = snapshot.toObject(User.class);
-                Log.d(TAG, "InscriptionService: User updated from Cloud.");
-            }
-            else {
-                Log.d(TAG, "InscriptionService: Snapshot null.");
-            }
-        });
     }
 
     public static InscriptionService getInstance() {
@@ -82,8 +73,8 @@ public class InscriptionService {
     /**
      * Saves the current instance of Local User to Cloud Firestore.
      */
-    public void setDbUserData() {
-        mFirebaseDbInstance.collection("users").document(mIdToken).set(mUser)
+    public void setDbUserData(User user) {
+        mFirebaseDbInstance.collection("users").document(mIdToken).set(user)
                 .addOnSuccessListener((success) -> {
                     Log.d(TAG, "setDbUserData: Success.");
                 })

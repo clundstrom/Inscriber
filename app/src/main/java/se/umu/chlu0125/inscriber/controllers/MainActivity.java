@@ -19,31 +19,40 @@ import se.umu.chlu0125.inscriber.R;
  */
 public class MainActivity extends AppCompatActivity {
 
+
     private static final String TAG = "MainActivity";
+    private Fragment mDialog;
+    private Fragment mTabManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        InscriptionService mService = new InscriptionService();
-
-        Context context = this;
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-
 
         FragmentManager fm = getSupportFragmentManager();
 
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
-        Fragment dialog = fm.findFragmentById(R.id.fragment_container);
+        mTabManager = fm.findFragmentById(R.id.fragment_container);
+        mDialog = fm.findFragmentById(R.id.fragment_container);
 
-        if (fragment == null) {
-            fragment = TabManagerFragment.newInstance();
-            dialog = GuideDialogFragment.newInstance();
+        if(savedInstanceState != null){
+            mTabManager = fm.getFragment(savedInstanceState, "TAB_MANAGER");
+        }
+
+        if (mTabManager == null) {
+            mTabManager = TabManagerFragment.newInstance();
+            mDialog = GuideDialogFragment.newInstance();
             fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
-                    .add(R.id.fragment_container, dialog)
+                    .add(R.id.fragment_container, mTabManager)
+                    .add(R.id.fragment_container, mDialog)
                     .commit();
         }
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, "TAB_MANAGER", mTabManager);
     }
 }

@@ -58,6 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mLocation;
     private InscriptionService mService;
+    private User localUser;
 
     public static MapFragment getInstance(){
         if(mMapFragment == null){
@@ -187,14 +188,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Inscription ins = (Inscription) data.getParcelableExtra(AddDialogFragment.EXTRA_MARKER);
 
             // Add inscription to Collection
-            mService.getUserData(getActivity()).getCollection().add(ins);
+            mService.getUserDataTask().addSnapshotListener( ((snapshot, e) -> {
+                if(e!= null){
+                    Log.e(TAG, "onActivityResult: Listener-error: " + e.getMessage());
+                }
 
-            //Save to Cloud
-            mService.setDbUserData();
+                if (snapshot != null && snapshot.exists()){
+                    localUser = snapshot.toObject(User.class);
+                }
+            }));
 
-            //Update adapter
-            InscriptionListFragment.getInstance().updateAdapter(mService.getUserData(getActivity()).getCollection());
+            if (localUser == null){
+                localUser = new User();
+            }
 
+            localUser.getCollection().add(ins);
+            mService.setDbUserData(localUser);
             addMapMarker();
         }
     }

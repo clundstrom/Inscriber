@@ -15,12 +15,12 @@
 
         <View
             android:id="@+id/item_box"
-            android:layout_width="361dp"
-            android:layout_height="306dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="@dimen/_288sdp"
+            android:layout_height="@dimen/_244sdp"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
             android:background="@color/buttonText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,35 +29,34 @@
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/inscription_item_map"
-            android:layout_width="316dp"
-            android:layout_height="123dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="@dimen/_252sdp"
+            android:layout_height="@dimen/_98sdp"
+            android:layout_marginTop="@dimen/_13sdp"
             app:layout_constraintEnd_toEndOf="@+id/item_box"
             app:layout_constraintStart_toStartOf="@+id/item_box"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/inscription_item_message"
-            android:layout_width="303dp"
-            android:layout_height="94dp"
-            android:layout_marginTop="60dp"
+            android:layout_width="@dimen/_220sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/_54sdp"
             android:text="Message"
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="@+id/item_box"
-            app:layout_constraintHorizontal_bias="0.396"
+            app:layout_constraintHorizontal_bias="0.252"
             app:layout_constraintStart_toStartOf="@+id/item_box"
             app:layout_constraintTop_toBottomOf="@+id/inscription_item_map" />
 
         <TextView
             android:id="@+id/inscription_item_date"
-            android:layout_width="147dp"
-            android:layout_height="34dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="@dimen/_147sdp"
+            android:layout_height="@dimen/_34sdp"
+            android:layout_marginStart="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:text="date"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textSize="@dimen/_16ssp"
             app:layout_constraintStart_toStartOf="@+id/item_box"
             app:layout_constraintTop_toBottomOf="@+id/inscription_item_map" />
 

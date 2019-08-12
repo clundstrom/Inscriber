@@ -20,6 +20,7 @@
         android:layout_marginEnd="@dimen/_8sdp"
         android:text="Button"
         android:textColor="@color/buttonText"
+        android:elevation="@dimen/_4sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

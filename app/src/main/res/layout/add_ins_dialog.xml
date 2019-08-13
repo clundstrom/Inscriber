@@ -24,7 +24,6 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:text="@android:string/cancel"
         android:textColor="@color/buttonText"
-        android:elevation="@dimen/_4sdp"
         app:layout_constraintEnd_toStartOf="@+id/add_ins_add"
         app:layout_constraintHorizontal_bias="0.989"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +37,6 @@
         android:layout_marginEnd="@dimen/_60sdp"
         android:text="@string/btn_add"
         android:textColor="@color/buttonText"
-        android:elevation="@dimen/_4sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 

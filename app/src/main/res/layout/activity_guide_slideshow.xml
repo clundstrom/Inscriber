@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/guideBlue">
 
     <Button
         android:id="@+id/btn_guide_gotit"
@@ -37,8 +38,8 @@
         app:sliderIndicatorOrientation="horizontal"
         app:sliderIndicatorPadding="3dp"
         app:sliderIndicatorRadius="2dp"
-        app:sliderIndicatorSelectedColor="@color/buttonText"
-        app:sliderIndicatorUnselectedColor="#FFF"
+        app:sliderIndicatorSelectedColor="@color/guideBlue"
+        app:sliderIndicatorUnselectedColor="@color/guideBlue"
         app:sliderScrollTimeInSec="1"
         app:sliderStartAutoCycle="true">
 

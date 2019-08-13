@@ -68,16 +68,22 @@ public class GuideActivity extends AppCompatActivity {
                 case 0:
                     Glide.with(viewHolder.itemView)
                             .load(mGuideImages[position])
+                            .override(800, 800)
+                            .centerCrop()
                             .into(viewHolder.imageViewBackground);
                     break;
                 case 1:
                     Glide.with(viewHolder.itemView)
                             .load(mGuideImages[position])
+                            .override(800, 800)
+                            .centerCrop()
                             .into(viewHolder.imageViewBackground);
                     break;
                 default:
                     Glide.with(viewHolder.itemView)
                             .load(mGuideImages[position])
+                            .override(1000, 800)
+                            .centerCrop()
                             .into(viewHolder.imageViewBackground);
                     break;
 

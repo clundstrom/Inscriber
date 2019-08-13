@@ -29,7 +29,7 @@ public class GuideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide_slideshow);
         mGotIt = findViewById(R.id.btn_guide_gotit);
-        mGuideImages = new int[]{R.drawable.sign1, R.drawable.guide};
+        mGuideImages = new int[]{R.drawable.guide1, R.drawable.guide2, R.drawable.guide3};
 
         mGotIt.setOnClickListener( (click) -> finish());
         //TODO FIX GUIDE PICTURES AND IMPLEMENT

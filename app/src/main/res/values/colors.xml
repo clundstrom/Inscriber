@@ -6,4 +6,5 @@
     <color name="buttonNormal">#1B5E20</color>
     <color name="buttonText">#FFFFFF</color>
     <color name="GrayBg">#C7C7C7</color>
+    <color name="guideBlue">#64BECB</color>
 </resources>

@@ -3,6 +3,9 @@ package se.umu.chlu0125.inscriber.controllers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
 
         FragmentManager fm = getSupportFragmentManager();
 
@@ -47,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package se.umu.chlu0125.inscriber.controllers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;

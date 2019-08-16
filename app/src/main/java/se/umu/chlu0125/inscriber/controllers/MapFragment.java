@@ -142,6 +142,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Toast successToast = Toast.makeText(getContext(), R.string.location_perm_denied, Toast.LENGTH_LONG);
                 successToast.setGravity(Gravity.TOP, 0, 50);
                 successToast.show();
+
             } else if (mLocation == null) {
                 mFusedLocationClient.getLastLocation()
                         .addOnSuccessListener(getActivity(), location -> {

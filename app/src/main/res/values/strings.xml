@@ -33,4 +33,5 @@
 
     <!-- PERMISSIONS -->
     <string name="location_perm_denied">Location permission is required to Inscribe.</string>
+    <string name="req_perm">REQUEST PERMISSION</string>
 </resources>

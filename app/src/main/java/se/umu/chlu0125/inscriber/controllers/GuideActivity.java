@@ -17,7 +17,16 @@ import com.smarteist.autoimageslider.SliderView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
 import se.umu.chlu0125.inscriber.R;
-
+/**
+ * @author: Christoffer Lundstrom
+ * @date: 13/08/2019
+ * <p>
+ * Description: Guide Activity. Is started from GuideDialogFragment and is used to
+ * explain to the user how the application works in a nutshell.
+ * Uses Glide API and a custom library called
+ * Android-Image-Slider @link https://github.com/smarteist/Android-Image-Slider
+ *
+ */
 public class GuideActivity extends AppCompatActivity {
 
     private static final String TAG = "GuideActivity";
@@ -32,7 +41,6 @@ public class GuideActivity extends AppCompatActivity {
         mGuideImages = new int[]{R.drawable.guide1, R.drawable.guide2, R.drawable.guide3};
 
         mGotIt.setOnClickListener( (click) -> finish());
-        //TODO FIX GUIDE PICTURES AND IMPLEMENT
 
         SliderView sliderView = findViewById(R.id.imageSlider);
 
@@ -42,11 +50,15 @@ public class GuideActivity extends AppCompatActivity {
 
         sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
         sliderView.setAutoCycle(false);
-        sliderView.setIndicatorSelectedColor(Color.parseColor("#1B5E20"));
+        sliderView.setIndicatorSelectedColor(Color.parseColor("#1B5E20")); // primary theme colour
         sliderView.setIndicatorUnselectedColor(Color.GRAY);
 
     }
 
+    /**
+     * Custom adapter for ImageSlider in Guide Activity.
+     *
+     */
     public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterVH> {
 
         private Context context;
@@ -61,6 +73,10 @@ public class GuideActivity extends AppCompatActivity {
             return new SliderAdapterVH(inflate);
         }
 
+        /**
+         * Binds each Image for the ViewHolders. Also crops and scales images using Glide API.
+         * Uses some customized boilerplate code from example from ImageSlider lib.
+         */
         @Override
         public void onBindViewHolder(SliderAdapterVH viewHolder, int position) {
 

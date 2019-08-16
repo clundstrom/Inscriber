@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorButtonNormal">#1B5E20</item>
         <item name="android:textColor">#FF000000</item>
+
+        <!--HIDE DEFAULT ACTIONBAR-->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

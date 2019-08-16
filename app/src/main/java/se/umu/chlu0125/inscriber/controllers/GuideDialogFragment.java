@@ -53,6 +53,7 @@ public class GuideDialogFragment extends DialogFragment {
         mShowButton.setOnClickListener( (x) -> {
             Log.d(TAG, "attachListeners: Start guide activity.");
             startActivity(new Intent(getActivity(), GuideActivity.class));
+            closeFragment();
         });
 
     }

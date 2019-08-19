@@ -17,7 +17,7 @@ import se.umu.chlu0125.inscriber.R;
  * @date: 22/07/2019
  * <p>
  * Description: Main entry of application.
- * Initializes backend-related queries and sets up connection to db.
+ * Initializes Fragments and sets up tabmanager, toolbars and it's child-views.
  */
 public class MainActivity extends AppCompatActivity  {
 
@@ -25,10 +25,12 @@ public class MainActivity extends AppCompatActivity  {
     private static final String TAG = "MainActivity";
     private Fragment mDialog;
     private Fragment mTabManager;
+    private SettingsFragment mSettingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -59,14 +61,23 @@ public class MainActivity extends AppCompatActivity  {
         return true;
     }
 
+    /**
+     * Responsible for creating the SettingsFragment. Makes sure there is only one
+     * SettingsFragment active in the backstack.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_item1:
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new SettingsFragment())
-                        .commit();
+                if(!isFragmentDuplicate("SETTINGS", SettingsFragment.class)){
+                    mSettingsFragment = new SettingsFragment();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.fragment_container, mSettingsFragment, "SETTINGS")
+                            .commit();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -76,7 +87,29 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //Save the fragment's instance
         getSupportFragmentManager().putFragment(outState, "TAB_MANAGER", mTabManager);
+
+        if(mSettingsFragment != null){
+            getSupportFragmentManager().putFragment(outState, "SETTINGS", mSettingsFragment);
+        }
+
+    }
+
+    /**
+     * Compares a Fragment to the FragmentManagers backstack to determine if there are duplicates of the Fragment-class.
+     * <p>
+     * Usage: isFragmentDuplicate("SETTINGS", MyCustomFragment.class)
+     * @param tag String tag of a fragment.
+     * @param object The object to compare with.
+     * @return
+     */
+    private boolean isFragmentDuplicate(String tag, Object object){
+        Fragment f = getSupportFragmentManager().findFragmentByTag(tag);
+        if(f instanceof Object){
+          return true;
+        }
+        else{
+            return false;
+        }
     }
 }

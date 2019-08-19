@@ -30,8 +30,13 @@
     <string name="add_ins_success">Message successfully added.</string>
     <string name="add_ins_err_message_empty">You can\'t save empty messages.</string>
     <string name="btn_add">Add</string>
+    <string name="add_ins_chars">Characters left: 140</string>
 
     <!-- PERMISSIONS -->
     <string name="location_perm_denied">Location permission is required to Inscribe.</string>
     <string name="req_perm">REQUEST PERMISSION</string>
+
+    <!--PREFERENCES -->
+    <string name="pref_inscriptions_clear">Reset data</string>
+
 </resources>

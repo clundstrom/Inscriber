@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/buttonText">
+    <PreferenceCategory android:title="General">
+
+        <CheckBoxPreference
+            android:clickable="false"
+            android:defaultValue="true"
+            android:disableDependentsState="false"
+            android:enabled="false"
+            android:key="pref_privacy_mode"
+            android:summary="All inscriptions are private."
+            android:title="Private mode" />
+
+        <Preference
+            android:key="pref_clear_data"
+            android:summary="Clears all inscriptions and map markers."
+            android:title="@string/pref_inscriptions_clear" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="About">
+
+        <Preference
+            android:key="privacy_policy"
+            android:summary="External link."
+            android:title="Privacy Policy"></Preference>
+
+        <Preference
+            android:key="version"
+            android:summary="1.0.0"
+            android:title="Build version"></Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -56,7 +56,7 @@
         android:layout_height="@dimen/_34sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_24sdp"
-        android:text="Max Characters: 140"
+        android:text="@string/add_ins_chars"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 

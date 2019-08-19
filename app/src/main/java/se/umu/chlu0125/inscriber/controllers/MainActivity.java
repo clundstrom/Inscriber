@@ -2,6 +2,7 @@ package se.umu.chlu0125.inscriber.controllers;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -18,7 +19,7 @@ import se.umu.chlu0125.inscriber.R;
  * Description: Main entry of application.
  * Initializes backend-related queries and sets up connection to db.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
 
     private static final String TAG = "MainActivity";
@@ -56,6 +57,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_item1:
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new SettingsFragment())
+                        .commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

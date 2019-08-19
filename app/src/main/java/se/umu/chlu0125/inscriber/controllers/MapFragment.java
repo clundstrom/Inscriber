@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -60,12 +61,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private InscriptionService mService;
     private User mLocalUser;
 
-    public static MapFragment getInstance(){
-        if(mMapFragment == null){
+    public static MapFragment getInstance() {
+        if (mMapFragment == null) {
             mMapFragment = new MapFragment();
             return mMapFragment;
-        }
-        else{
+        } else {
             return mMapFragment;
         }
     }
@@ -74,10 +74,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null){
-            mLocation = (Location)savedInstanceState.getSerializable("Location");
-        }
-        else{
+        if (savedInstanceState != null) {
+            mLocation = (Location) savedInstanceState.getSerializable("Location");
+        } else {
             mLocation = new Location();
         }
 
@@ -107,13 +106,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
 
         // Listen for updates.
-        mService.getUserDataTask().addSnapshotListener( (snapshot, err) -> {
-            if(snapshot != null && snapshot.exists()){
+        mService.getUserDataTask().addSnapshotListener((snapshot, err) -> {
+            if (snapshot != null && snapshot.exists()) {
                 mLocalUser = snapshot.toObject(User.class);
                 Log.d(TAG, "InscriptionService: User exists.");
                 populateMarkers(mLocalUser);
-            }
-            else {
+            } else {
                 Log.d(TAG, "InscriptionService: Snapshot null.");
             }
         });
@@ -143,6 +141,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Toast successToast = Toast.makeText(getContext(), R.string.location_perm_denied, Toast.LENGTH_LONG);
                 successToast.setGravity(Gravity.TOP, 0, 50);
                 successToast.show();
+
+                // Wait until toast is finished then request permission.
+                new Handler().postDelayed(() -> {
+                    ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_PERMISSION);
+                }, 3000);
 
             } else if (mLocation == null) {
                 mFusedLocationClient.getLastLocation()
@@ -174,6 +177,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     /**
      * Receives an Inscription from AddDialogFragment and saves to the database.
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -188,7 +192,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Log.d(TAG, "onActivityResult: Map marker added.");
             Inscription ins = (Inscription) data.getParcelableExtra(AddDialogFragment.EXTRA_MARKER);
 
-            if (mLocalUser == null){
+            if (mLocalUser == null) {
                 mLocalUser = new User();
             }
 

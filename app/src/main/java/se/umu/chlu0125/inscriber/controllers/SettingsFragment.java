@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceFragment;
+import androidx.preference.PreferenceFragmentCompat;
 
 import se.umu.chlu0125.inscriber.R;
 
@@ -17,7 +18,7 @@ import se.umu.chlu0125.inscriber.R;
  * <p>
  * Description: Responsible for handling application settings and menu interaction.
  */
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
 
     @Override
@@ -62,7 +63,5 @@ public class SettingsFragment extends PreferenceFragment {
     private void closeFragment() {
         getFragmentManager().beginTransaction().remove(this).commit();
     }
-
-
 }
 

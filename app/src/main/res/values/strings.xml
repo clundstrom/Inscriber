@@ -3,6 +3,11 @@
     <string name="desc_bg">Cloudy background.</string>
     <string name="preference_file_key">se.umu.chlu0125.inscriber</string>
 
+    <!--GENERAL -->
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset_data">This will permanently reset all your saved Inscriptions.</string>
+
     <!-- GUIDE STRINGS -->
     <string name="guide_slide1_step1">Travel to your destination</string>
     <string name="guide_slide1_phone">.....Wroom!</string>
@@ -38,5 +43,7 @@
 
     <!--PREFERENCES -->
     <string name="pref_inscriptions_clear">Reset data</string>
+    <string name="reset_settings_question">Reset settings?</string>
+    <string name="no_inscriptions">No Inscriptions available.</string>
 
 </resources>

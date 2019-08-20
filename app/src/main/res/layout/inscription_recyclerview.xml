@@ -6,9 +6,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_135sdp"
+        android:gravity="center"
+        android:text="@string/no_inscriptions"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/inscription_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/inscription_item" />
+        android:visibility="visible"
+        tools:listitem="@layout/inscription_item">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
 </LinearLayout>

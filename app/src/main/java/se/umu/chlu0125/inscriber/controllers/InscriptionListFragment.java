@@ -49,6 +49,7 @@ public class InscriptionListFragment extends Fragment {
     private List<Inscription> mDisplayCollection;
     private LinearLayoutManager mLayoutManager;
     private Bundle mBundleRecyclerViewState;
+    private TextView noDataView;
 
     public static InscriptionListFragment getInstance() {
         if (mFragment == null) {
@@ -71,6 +72,7 @@ public class InscriptionListFragment extends Fragment {
         Log.d(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.inscription_recyclerview, container, false);
 
+        noDataView = (TextView) view.findViewById(R.id.empty_view);
         mInscriptionRecyclerView = (RecyclerView) view.findViewById(R.id.inscription_recycler);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mInscriptionRecyclerView.setLayoutManager(mLayoutManager);
@@ -91,8 +93,12 @@ public class InscriptionListFragment extends Fragment {
             if(snapshot != null && snapshot.exists()){
                 mDisplayCollection = snapshot.toObject(User.class).getCollection();
                 updateAdapter(mDisplayCollection);
+                setViewIfEmpty();
             }
         }));
+
+
+
     }
 
     @Override
@@ -252,6 +258,18 @@ public class InscriptionListFragment extends Fragment {
         mAdapter.updateData(list);
         mAdapter.notifyDataSetChanged();
         Log.d(TAG, "updateAdapter: Success.");
+    }
+
+    /**
+     * Sets a placeholder view if no Inscriptions are available.
+     */
+    private void setViewIfEmpty(){
+        if (mDisplayCollection.isEmpty() || mDisplayCollection == null) {
+            noDataView.setVisibility(View.VISIBLE);
+        }
+        else{
+            noDataView.setVisibility(View.GONE);
+        }
     }
 }
 

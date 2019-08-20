@@ -1,13 +1,17 @@
 package se.umu.chlu0125.inscriber.controllers;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.preference.PreferenceFragment;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import se.umu.chlu0125.inscriber.R;
@@ -20,6 +24,9 @@ import se.umu.chlu0125.inscriber.R;
  */
 public class SettingsFragment extends PreferenceFragmentCompat {
 
+    private static final String CLEAR = "pref_clear_data";
+    private static final String FEEDBACK = "pref_feedback";
+    private static final String mFeedbackAddress = "contact@clundstrom.com";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +37,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         view.setBackgroundColor(getResources().getColor(android.R.color.white));
+
+        bindPreferences();
         return view;
     }
 
@@ -62,6 +71,32 @@ public class SettingsFragment extends PreferenceFragmentCompat {
      */
     private void closeFragment() {
         getFragmentManager().beginTransaction().remove(this).commit();
+    }
+
+
+    /**
+     * Binds actions to Preferences.
+     */
+    private void bindPreferences(){
+
+        Preference clearData = findPreference(CLEAR);
+        Preference feedback = findPreference(FEEDBACK);
+
+        feedback.setOnPreferenceClickListener( (click) -> {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto: " + mFeedbackAddress));
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(Intent.createChooser(intent, "Send Email"));
+            }
+            return false;
+        });
+        clearData.setOnPreferenceClickListener( (click) -> {
+            ResetDialogFragment resetData = new ResetDialogFragment();
+            resetData.setTargetFragment(this, 1);
+            resetData.show(getFragmentManager(), "ResetData");
+            return false;
+        });
     }
 }
 

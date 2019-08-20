@@ -121,4 +121,10 @@ public class InscriptionService {
             mIdToken = mInstanceId.getId();
         }
     }
+
+    public static void clearUserData(){
+        mFirebaseDbInstance.collection("users").document(mIdToken).set(new User())
+        .addOnSuccessListener( (success) -> Log.d(TAG, "clearUserData: User data reset."))
+        .addOnFailureListener( (fail) -> Log.d(TAG, "clearUserData: Failed."));
+    }
 }

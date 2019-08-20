@@ -21,8 +21,8 @@
 
     <com.smarteist.autoimageslider.SliderView
         android:id="@+id/imageSlider"
-        android:layout_width="463dp"
-        android:layout_height="386dp"
+        android:layout_width="462dp"
+        android:layout_height="286dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,8 +46,8 @@
 
         <ImageView
             android:id="@+id/guide_image"
-            android:layout_width="446dp"
-            android:layout_height="385dp"
+            android:layout_width="447dp"
+            android:layout_height="match_parent"
             tools:srcCompat="@tools:sample/avatars" />
 
     </com.smarteist.autoimageslider.SliderView>

@@ -122,6 +122,9 @@ public class InscriptionService {
         }
     }
 
+    /**
+     * Resets user in Firebase but keeps app idToken.
+     */
     public static void clearUserData(){
         mFirebaseDbInstance.collection("users").document(mIdToken).set(new User())
         .addOnSuccessListener( (success) -> Log.d(TAG, "clearUserData: User data reset."))

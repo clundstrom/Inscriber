@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="@dimen/_188sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sign1" />
+
+    <Button
+        android:id="@+id/add_ins_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:text="@android:string/cancel"
+        android:textColor="@color/buttonText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_ins_add" />
+
+    <Button
+        android:id="@+id/add_ins_add"
+        android:layout_width="88dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/btn_add"
+        android:textColor="@color/buttonText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/add_ins_location"
+        android:layout_width="@dimen/_146sdp"
+        android:layout_height="@dimen/_49sdp"
+        android:layout_marginStart="220dp"
+        android:text="Location"
+        app:layout_constraintStart_toStartOf="@+id/add_ins_max_char"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <TextView
+        android:id="@+id/add_ins_max_char"
+        android:layout_width="@dimen/_110sdp"
+        android:layout_height="@dimen/_34sdp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="128dp"
+        android:text="@string/add_ins_chars"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_ins_add" />
+
+    <EditText
+        android:id="@+id/add_ins_msg"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_127sdp"
+        android:layout_marginTop="52dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:maxLength="140"
+        app:layout_constraintEnd_toEndOf="@+id/imageView3"
+        app:layout_constraintHorizontal_bias="0.41"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

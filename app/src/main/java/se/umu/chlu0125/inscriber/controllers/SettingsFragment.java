@@ -75,14 +75,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
 
     /**
-     * Binds actions to Preferences.
+     * Binds actions(feedback and reset inscriptions) to Preferences.
      */
-    private void bindPreferences(){
+    private void bindPreferences() {
 
         Preference clearData = findPreference(CLEAR);
         Preference feedback = findPreference(FEEDBACK);
 
-        feedback.setOnPreferenceClickListener( (click) -> {
+        feedback.setOnPreferenceClickListener((click) -> {
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setData(Uri.parse("mailto: " + mFeedbackAddress));
             intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
@@ -91,7 +91,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
             return false;
         });
-        clearData.setOnPreferenceClickListener( (click) -> {
+        clearData.setOnPreferenceClickListener((click) -> {
             ResetDialogFragment resetData = new ResetDialogFragment();
             resetData.setTargetFragment(this, 1);
             resetData.show(getFragmentManager(), "ResetData");

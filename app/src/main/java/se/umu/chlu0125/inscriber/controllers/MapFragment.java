@@ -24,10 +24,12 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -50,6 +52,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final int REQUEST_PERMISSION = 9000;
     private static final int REQUEST_MARKER_CONFIRM = 9001;
     private static final int DEFAULT_MAP_ZOOM = 5;
+    private static final String STATE_CAMERA = "STATE_CAMERA";
     private static MapFragment mMapFragment;
 
     private MapView mapView;
@@ -72,6 +75,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
@@ -103,6 +107,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
 
         // Listen for updates.
@@ -164,6 +170,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+
     /**
      * Moves and zooms the camera to current location.
      */
@@ -174,12 +181,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
 
     /**
      * Receives an Inscription from AddDialogFragment and saves to the database.
      *
-     * @param requestCode
-     * @param resultCode
+     * @param requestCode Request
+     * @param resultCode  Result
      * @param data
      */
     @Override
@@ -205,7 +223,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
         outState.putSerializable("Location", mLocation);
+        outState.putParcelable(STATE_CAMERA, mMap.getCameraPosition());
     }
 
     /**

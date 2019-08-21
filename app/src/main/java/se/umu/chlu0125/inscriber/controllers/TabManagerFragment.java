@@ -46,4 +46,9 @@ public class TabManagerFragment extends Fragment {
         viewPager.setAdapter(pagerAdapter);
         Log.d(TAG, "onViewCreated: TabManager initialized.");
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 }

@@ -1,7 +1,9 @@
 package se.umu.chlu0125.inscriber.controllers;
 
 import android.app.Activity;
+
 import androidx.appcompat.app.AlertDialog;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,11 +48,10 @@ public class AddDialogFragment extends DialogFragment {
     private boolean mAddMarker;
 
 
-    public static AddDialogFragment newInstance(@Nullable Location location){
+    public static AddDialogFragment newInstance(@Nullable Location location) {
         AddDialogFragment fragment = new AddDialogFragment();
         mInscription = new Inscription(location);
         Bundle args = new Bundle();
-        //args.putInt("someInt", someInt);
         fragment.setArguments(args);
 
         return fragment;
@@ -72,32 +73,38 @@ public class AddDialogFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
 
-        mLocation.setText("Lat: " + mInscription.getLocation().getLatitude()  + "\nLong: " + mInscription.getLocation().getLongitude());
+        mLocation.setText("Lat: " + mInscription.getLocation().getLatitude() + "\nLong: " + mInscription.getLocation().getLongitude());
     }
 
     /**
      * Creates the Add Inscription Dialog in which the User adds a message to the current location.
      * Also handles maximum amount of characters.
+     *
      * @param savedInstanceState
      * @return Dialog Popup.
      */
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.add_ins_dialog, null);
         Log.d(TAG, "onCreateDialog: Creating dialog.");
 
         // Finding Views.
         mCancel = v.findViewById(R.id.add_ins_cancel);
         mAdd = v.findViewById(R.id.add_ins_add);
-        mMaxChars = (TextView)v.findViewById(R.id.add_ins_max_char);
-        mMessage = (EditText)v.findViewById(R.id.add_ins_msg);
+        mMaxChars = (TextView) v.findViewById(R.id.add_ins_max_char);
+        mMessage = (EditText) v.findViewById(R.id.add_ins_msg);
         mLocation = v.findViewById(R.id.add_ins_location);
 
         attachListeners();
         return new AlertDialog.Builder(getActivity()).setView(v).create();
     }
 
-    private void sendResult(int resultCode, Inscription mInscription){
+    /**
+     * Returns Inscription to MapFragment.
+     * @param resultCode
+     * @param mInscription
+     */
+    private void sendResult(int resultCode, Inscription mInscription) {
         if (getTargetFragment() == null) return;
 
         Intent intent = new Intent();
@@ -107,6 +114,9 @@ public class AddDialogFragment extends DialogFragment {
 
     }
 
+    /**
+     * Attaches dialog listeners to Dialog Views.
+     */
     private void attachListeners() {
         mMessage.addTextChangedListener(new TextWatcher() {
             @Override
@@ -120,20 +130,19 @@ public class AddDialogFragment extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mMaxChars.setText("Characters left: " + (MAX_MSG_LENGTH -s.length()));
+                mMaxChars.setText("Characters left: " + (MAX_MSG_LENGTH - s.length()));
             }
         });
 
         mCancel.setOnClickListener((click) -> dismiss());
 
         mAdd.setOnClickListener((click) -> {
-            if(mMessage.getText().toString().length() < MIN_MSG_LENGTH){
-               Toast errToast =  Toast.makeText(getContext(), R.string.add_ins_err_message_empty, Toast.LENGTH_SHORT);
-               errToast.setGravity(Gravity.TOP, 0, 50);
-               errToast.show();
+            if (mMessage.getText().toString().length() < MIN_MSG_LENGTH) {
+                Toast errToast = Toast.makeText(getContext(), R.string.add_ins_err_message_empty, Toast.LENGTH_SHORT);
+                errToast.setGravity(Gravity.TOP, 0, 50);
+                errToast.show();
                 Log.e(TAG, "attachListeners: Message empty.");
-            }
-            else {
+            } else {
                 mInscription.setMessage(mMessage.getText().toString());
                 Toast successToast = Toast.makeText(getContext(), R.string.add_ins_success, Toast.LENGTH_SHORT);
                 successToast.setGravity(Gravity.TOP, 0, 50);

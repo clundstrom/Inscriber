@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.fragment.app.DialogFragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,29 +30,28 @@ public class GuideDialogFragment extends DialogFragment {
     private boolean mHidden;
 
 
-    public static GuideDialogFragment newInstance(){
+    public static GuideDialogFragment newInstance() {
         GuideDialogFragment fragment = new GuideDialogFragment();
 
         Bundle args = new Bundle();
-        //args.putInt("someInt", someInt);
         fragment.setArguments(args);
 
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     private void attachListeners() {
-        mHideButton.setOnClickListener( (x) -> {
+        mHideButton.setOnClickListener((x) -> {
             Log.d(TAG, "attachListeners: Fragment hidden.");
             mHidden = true;
             closeFragment();
         });
 
-        mShowButton.setOnClickListener( (x) -> {
+        mShowButton.setOnClickListener((x) -> {
             Log.d(TAG, "attachListeners: Start guide activity.");
             startActivity(new Intent(getActivity(), GuideActivity.class));
             closeFragment();
@@ -59,13 +60,13 @@ public class GuideDialogFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.modal_help, container, false);
         return view;
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         mHideButton = getView().findViewById(R.id.button_hide);
         mShowButton = getView().findViewById(R.id.button_show);
@@ -74,7 +75,7 @@ public class GuideDialogFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.modal_help, null);
         Log.d(TAG, "onCreateDialog: Starting dialog.");
         return new AlertDialog.Builder(getActivity()).setView(v).create();

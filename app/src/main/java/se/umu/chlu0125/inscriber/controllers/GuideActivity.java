@@ -17,6 +17,7 @@ import com.smarteist.autoimageslider.SliderView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
 import se.umu.chlu0125.inscriber.R;
+
 /**
  * @author: Christoffer Lundstrom
  * @date: 13/08/2019
@@ -25,7 +26,6 @@ import se.umu.chlu0125.inscriber.R;
  * explain to the user how the application works in a nutshell.
  * Uses Glide API and a custom library called
  * Android-Image-Slider @link https://github.com/smarteist/Android-Image-Slider
- *
  */
 public class GuideActivity extends AppCompatActivity {
 
@@ -40,7 +40,7 @@ public class GuideActivity extends AppCompatActivity {
         mGotIt = findViewById(R.id.btn_guide_gotit);
         mGuideImages = new int[]{R.drawable.guide1, R.drawable.guide2, R.drawable.guide3};
 
-        mGotIt.setOnClickListener( (click) -> finish());
+        mGotIt.setOnClickListener((click) -> finish());
 
         SliderView sliderView = findViewById(R.id.imageSlider);
 
@@ -57,7 +57,6 @@ public class GuideActivity extends AppCompatActivity {
 
     /**
      * Custom adapter for ImageSlider in Guide Activity.
-     *
      */
     public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterVH> {
 

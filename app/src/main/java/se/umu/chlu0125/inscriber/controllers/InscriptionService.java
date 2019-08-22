@@ -8,6 +8,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
+
 import se.umu.chlu0125.inscriber.models.User;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -125,9 +126,9 @@ public class InscriptionService {
     /**
      * Resets user in Firebase but keeps app idToken.
      */
-    public static void clearUserData(){
+    public static void clearUserData() {
         mFirebaseDbInstance.collection("users").document(mIdToken).set(new User())
-        .addOnSuccessListener( (success) -> Log.d(TAG, "clearUserData: User data reset."))
-        .addOnFailureListener( (fail) -> Log.d(TAG, "clearUserData: Failed."));
+                .addOnSuccessListener((success) -> Log.d(TAG, "clearUserData: User data reset."))
+                .addOnFailureListener((fail) -> Log.d(TAG, "clearUserData: Failed."));
     }
 }

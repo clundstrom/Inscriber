@@ -1,7 +1,6 @@
 package se.umu.chlu0125.inscriber.controllers;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,7 @@ import se.umu.chlu0125.inscriber.R;
  * @author: Christoffer Lundstrom
  * @date: 20/08/2019
  * <p>
- * Description: Custom reset data dialog.
+ * Description: Custom reset data confirmation dialog.
  */
 public class ResetDialogFragment extends DialogFragment {
 

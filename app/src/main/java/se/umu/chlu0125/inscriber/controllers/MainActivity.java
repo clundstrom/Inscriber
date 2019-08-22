@@ -19,7 +19,7 @@ import se.umu.chlu0125.inscriber.R;
  * Description: Main entry of application.
  * Initializes Fragments and sets up tabmanager, toolbars and it's child-views.
  */
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
 
     private static final String TAG = "MainActivity";
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
         FragmentManager fm = getSupportFragmentManager();
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity  {
         mTabManager = fm.findFragmentById(R.id.fragment_container);
         mDialog = fm.findFragmentById(R.id.fragment_container);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             mTabManager = fm.getFragment(savedInstanceState, "TAB_MANAGER");
         }
 
@@ -64,14 +64,15 @@ public class MainActivity extends AppCompatActivity  {
     /**
      * Responsible for creating the SettingsFragment. Makes sure there is only one
      * SettingsFragment active in the backstack.
+     *
      * @param item
      * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_item1:
-                if(!isFragmentDuplicate("SETTINGS", SettingsFragment.class)){
+                if (!isFragmentDuplicate("SETTINGS", SettingsFragment.class)) {
                     mSettingsFragment = new SettingsFragment();
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onSaveInstanceState(outState);
         getSupportFragmentManager().putFragment(outState, "TAB_MANAGER", mTabManager);
 
-        if(mSettingsFragment != null){
+        if (mSettingsFragment != null) {
             getSupportFragmentManager().putFragment(outState, "SETTINGS", mSettingsFragment);
         }
 
@@ -99,16 +100,16 @@ public class MainActivity extends AppCompatActivity  {
      * Compares a Fragment to the FragmentManagers backstack to determine if there are duplicates of the Fragment-class.
      * <p>
      * Usage: isFragmentDuplicate("SETTINGS", MyCustomFragment.class)
-     * @param tag String tag of a fragment.
+     *
+     * @param tag    String tag of a fragment.
      * @param object The object to compare with.
      * @return
      */
-    private boolean isFragmentDuplicate(String tag, Object object){
+    private boolean isFragmentDuplicate(String tag, Object object) {
         Fragment f = getSupportFragmentManager().findFragmentByTag(tag);
-        if(f instanceof Object){
-          return true;
-        }
-        else{
+        if (f instanceof Object) {
+            return true;
+        } else {
             return false;
         }
     }

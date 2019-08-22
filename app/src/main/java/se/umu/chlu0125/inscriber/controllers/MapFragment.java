@@ -111,7 +111,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
 
-        // Listen for updates.
+        // Listen for DB updates.
         mService.getUserDataTask().addSnapshotListener((snapshot, err) -> {
             if (snapshot != null && snapshot.exists()) {
                 mLocalUser = snapshot.toObject(User.class);
@@ -122,6 +122,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        // Request permission if needed.
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermission = true;
@@ -132,6 +133,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_PERMISSION);
         }
 
+        // Get Location of User
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), location -> {
                     if (location != null) {
@@ -142,6 +144,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     }
                 });
 
+        // Listen for Inscribe click
         mInscribe.setOnClickListener((click) -> {
             if (mLocationPermission != true) {
                 Toast successToast = Toast.makeText(getContext(), R.string.location_perm_denied, Toast.LENGTH_LONG);
@@ -220,6 +223,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    /**
+     * @param outState Bundled with the state of the Camera and current Location.
+     */
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);

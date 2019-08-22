@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         getSupportFragmentManager().putFragment(outState, "TAB_MANAGER", mTabManager);
 
-        if (mSettingsFragment != null) {
+        if(isFragmentDuplicate("SETTINGS", SettingsFragment.class)){
             getSupportFragmentManager().putFragment(outState, "SETTINGS", mSettingsFragment);
         }
 

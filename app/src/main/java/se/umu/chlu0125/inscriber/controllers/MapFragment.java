@@ -56,7 +56,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static MapFragment mMapFragment;
 
     private MapView mapView;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private Button mInscribe;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mLocation;
@@ -248,5 +248,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private boolean isLocationPermitted(){
         return ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void clearMap(){
+        mMap.clear();
     }
 }

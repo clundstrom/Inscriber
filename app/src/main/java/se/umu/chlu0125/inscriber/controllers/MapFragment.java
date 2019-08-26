@@ -57,7 +57,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private MapView mapView;
     private GoogleMap mMap;
-    private boolean mLocationPermission;
     private Button mInscribe;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mLocation;
@@ -123,9 +122,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
 
         // Request permission if needed.
-        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermission = true;
+        if (isLocationPermitted()) {
             Log.d(TAG, "onMapReady: Location permission granted.");
             mMap.setMyLocationEnabled(true);
         } else {
@@ -146,16 +143,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // Listen for Inscribe click
         mInscribe.setOnClickListener((click) -> {
-            if (mLocationPermission != true) {
+            if (isLocationPermitted() == false) {
                 Toast successToast = Toast.makeText(getContext(), R.string.location_perm_denied, Toast.LENGTH_LONG);
                 successToast.setGravity(Gravity.TOP, 0, 50);
                 successToast.show();
-
-                // Wait until toast is finished then request permission.
-                new Handler().postDelayed(() -> {
-                    ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_PERMISSION);
-                }, 3000);
-
+                // Request permission
+                ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_PERMISSION);
             } else if (mLocation == null) {
                 mFusedLocationClient.getLastLocation()
                         .addOnSuccessListener(getActivity(), location -> {
@@ -166,6 +159,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             }
                         });
             } else {
+                mMap.setMyLocationEnabled(true);
                 DialogFragment dialog = AddDialogFragment.newInstance(mLocation);
                 dialog.setTargetFragment(this, REQUEST_MARKER_CONFIRM);
                 dialog.show(getFragmentManager(), CONFIRM_ADD);
@@ -250,5 +244,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 mMap.addMarker(new MarkerOptions().position(new LatLng(ins.getLocation().getLatitude(), ins.getLocation().getLongitude())));
             }
         }
+    }
+
+    private boolean isLocationPermitted(){
+        return ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 }

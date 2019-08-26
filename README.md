@@ -1,4 +1,4 @@
-## Inscriber
+## Inscriber <img src="screenshots/icon.png" width="50"><br>
 
 A Software Engineering project for the course 
 
@@ -9,8 +9,20 @@ Made in Android Studio and written in Java.
 
 Android API Level 19-28
 
-#### Description
+#### Play Store description
 
-* Bring your phone into the wild and leave your mark!
-* Get notified when near a mark.
-* Leave customized messages for the next hiker.
+
+        Venture into the wild and leave your mark.
+        Leave customized messages for the next traveller.
+        Get notified when near an Inscription.
+<br>
+<br>
+
+<strong>Map Fragment</strong><br><br>
+<img src="screenshots/mapfrag.png" width="200"><br>
+
+<strong>Your Inscriptions</strong><br><br>
+<img src="screenshots/inscription.png" width="200">
+
+<strong>Settings</strong><br><br>
+<img src="screenshots/settings.png" width="200">

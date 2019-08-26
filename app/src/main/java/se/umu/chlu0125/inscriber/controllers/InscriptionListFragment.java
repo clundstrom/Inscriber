@@ -93,7 +93,10 @@ public class InscriptionListFragment extends Fragment {
             if(snapshot != null && snapshot.exists()){
                 mDisplayCollection = snapshot.toObject(User.class).getCollection();
                 updateAdapter(mDisplayCollection);
-                setViewIfEmpty();
+                setViewIfEmpty(mDisplayCollection);
+            }
+            else{
+                setViewIfEmpty(mDisplayCollection);
             }
         }));
 
@@ -263,8 +266,8 @@ public class InscriptionListFragment extends Fragment {
     /**
      * Sets a placeholder view if no Inscriptions are available.
      */
-    private void setViewIfEmpty(){
-        if (mDisplayCollection.isEmpty() || mDisplayCollection == null) {
+    private void setViewIfEmpty(List list){
+        if (list.isEmpty() || list == null) {
             noDataView.setVisibility(View.VISIBLE);
         }
         else{

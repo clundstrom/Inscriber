@@ -4,10 +4,16 @@ A Software Engineering project for the course
 
 <strong>Development of Mobile Applications (5DV209)</strong> at Umeå University. Summer 2019.
 
-Made in Android Studio and written in Java.
+Made in Android Studio and written in Java.<br>
+All images used in this project are labeled for reuse with modification.
 #### Dependencies
 
 Android API Level 19-28
+
+* Firebase<br>
+* SSP, SDP
+* Glide
+* Android-Image-Slider
 
 #### Play Store description
 

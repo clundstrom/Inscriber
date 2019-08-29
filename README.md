@@ -6,6 +6,11 @@ A Software Engineering project for the course
 
 Made in Android Studio and written in Java.<br>
 All images used in this project are labeled for reuse with modification.
+
+#### Installation
+
+Install apk/release/app-release.apk
+
 #### Dependencies
 
 Android API Level 19-28

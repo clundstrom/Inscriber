@@ -3,6 +3,8 @@ package se.umu.chlu0125.inscriber.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
  * <p>
  * Description: Model for a Collection of Inscription.
  */
-
+@Keep
 public class User implements Parcelable {
 
     private static final String TAG = "User";

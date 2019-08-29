@@ -3,6 +3,7 @@ package se.umu.chlu0125.inscriber.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Keep;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.Timestamp;
@@ -13,6 +14,7 @@ import com.google.firebase.Timestamp;
  * <p>
  * Description: Model for an inscription.
  */
+@Keep
 public class Inscription extends ViewModel implements Parcelable {
 
     private Timestamp mDate;

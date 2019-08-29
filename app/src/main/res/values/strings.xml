@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Inscriber</string>
+    <string name="desc_bg">Cloudy background.</string>
+    <string name="preference_file_key">se.umu.chlu0125.inscriber</string>
+
+    <!--GENERAL -->
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset_data">This will permanently reset all your saved Inscriptions.</string>
+
+    <!-- GUIDE STRINGS -->
+    <string name="guide_slide1_step1">Travel to your destination</string>
+    <string name="guide_slide1_phone">.....Wroom!</string>
+
+
+    <string name="guide_slide2_step2">
+        Step 2:</string>
+    <string name="guide_slide2_inscribe">
+        Inscribe your mark!</string>
+    <string name="guide_modal">Let\'s make your first Inscription!</string>
+    <string name="guide_modal_button">SHOW ME</string>
+    <string name="guide_modal_hide">HIDE</string>
+
+
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="map_activity_title">Map</string>
+    <string name="second_tab_title">Your inscriptions</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="inscribe">Inscribe</string>
+
+    
+    <!-- ADD DIALOG -->
+    <string name="add_ins_success">Message successfully added.</string>
+    <string name="add_ins_err_message_empty">You can\'t save empty messages.</string>
+    <string name="btn_add">Add</string>
+    <string name="add_ins_chars">Characters left: 140</string>
+
+    <!-- PERMISSIONS -->
+    <string name="location_perm_denied">Location permission is required to Inscribe.</string>
+    <string name="req_perm">REQUEST PERMISSION</string>
+
+    <!--PREFERENCES -->
+    <string name="pref_inscriptions_clear">Reset data</string>
+    <string name="reset_settings_question">Reset settings?</string>
+    <string name="no_inscriptions">No Inscriptions available.</string>
+
+</resources>
